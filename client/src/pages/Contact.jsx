@@ -23,11 +23,11 @@ export const Contact = () => {
                     <div className="flex flex-col space-y-8 pb-10 pt-12 md:pt-24">
                         <div className="mx-auto max-w-max rounded-full border bg-blue-600 text-white p-1 px-3">
                             <p className="text-center  text-xs font-semibold leading-normal md:text-sm">
-                                Share your love with streamer
+                                Ask Your Queries
                             </p>
                         </div>
                         <p className="text-center text-3xl font-bold text-gray-900 md:text-5xl md:leading-10">
-                            Love to hear from you
+
                         </p>
                         <p className="mx-auto max-w-4xl text-center text-base text-gray-600 md:text-xl">
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore veritatis voluptates

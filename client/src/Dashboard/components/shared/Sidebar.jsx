@@ -24,7 +24,7 @@ export default function Sidebar() {
                     to="/"
                     className="text-white font-bold text text-2xl text-center ml-12"
                 >
-                    Tourism App
+                    E-Learning
                 </Link>
             </div>
             <div className="py-8 flex flex-1 flex-col  gap-0.5">

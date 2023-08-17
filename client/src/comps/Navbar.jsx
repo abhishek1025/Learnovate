@@ -12,14 +12,11 @@ const Navbar = () => {
   return (
     <div className="flex justify-between  items-center h-24 max-w-[1240px] mx-auto  text-black">
       <Link to="/" className="w-full text-3xl font-bold text-blue-600">
-        Hamro Voting
+        E-Learning
       </Link>
       <ul className="hidden md:flex">
         <Link to="/" className="p-4">
           Home
-        </Link>
-        <Link to="/vote" className="p-4">
-          Vote
         </Link>
         <Link to="/contact" className="p-4">
           Contact

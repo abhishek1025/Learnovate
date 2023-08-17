@@ -1,0 +1,27 @@
+/* .img-wrapper{
+
+} */
+/* .card-img{
+    opacity: 0.99;
+} */
+.play-icon{
+    position: absolute;
+    top: 50%;  /* position the top  edge of the element at the middle of the parent */
+    left: 50%; /* position the left edge of the element at the middle of the parent */
+
+    transform: translate(-50%, -50%);
+    font-size: 4rem;
+    color: rgb(65, 64, 64,.8);
+   
+    
+}
+.live-icon{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px;
+}
+.live-icon img{
+    width: 35px;
+    height: auto;
+}

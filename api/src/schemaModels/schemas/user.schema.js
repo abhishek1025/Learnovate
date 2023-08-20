@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt"
 
 
 const userSchema = new mongoose.Schema(
@@ -10,10 +11,19 @@ const userSchema = new mongoose.Schema(
         email: {
             type: String,
             required: true,
+            unique: true
+        },
+        phoneNumber: {
+            type: String,
+            required: true
+        },
+        address: {
+            type: String,
+            required: true
         },
         role: {
             type: String,
-            enum: ["user", "admin"],
+            enum: ["admin", "student", "teacher"],
         },
         password: {
             type: String,
@@ -33,4 +43,5 @@ userSchema.pre('save', async function (next) {
     this.password = hashedPassword;
     next();
 });
-const User = mongoose.model('User', userSchema);
+
+export default userSchema;

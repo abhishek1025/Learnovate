@@ -6,6 +6,7 @@ import indexRouter from './routes/index.route.js';
 import cors from 'cors';
 // import http from " http"
 import mongoose from 'mongoose';
+import apiRoutes from './routes/index.route.js';
 const app = express();
 
 app.use(logger('dev'));
@@ -14,22 +15,25 @@ app.use(cookieParser());
 app.use(cors({ origin: '*' }));
 
 // Routes configurations
-app.use('/', indexRouter);
+app.use('/', apiRoutes);
 
 // Handling errors in routes
 app.use((err, req, res, next) => {
     if (err) {
+
+        err.status = err.status || 'error';
+
         if (process.env.ENV === 'development') {
             // Development environment
-            return res.status(err.status || 500).send({
-                msg: err.message || 'Oops! Something went wrong 🥲...',
+            return res.status(err.statusCode || 500).send({
+                message: err.message || 'Oops! Something went wrong 🥲...',
                 success: false,
                 stack: err.stack,
             });
         } else {
             // Production environment
-            return res.status(err.status || 500).send({
-                msg: err.message || 'Oops! Something went wrong 🥲...',
+            return res.status(err.statusCode || 500).send({
+                message: err.message || 'Oops! Something went wrong 🥲...',
                 success: false,
                 stack: null,
             });

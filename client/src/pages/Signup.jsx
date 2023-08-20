@@ -8,9 +8,10 @@ const SignUp = () => {
 
 
     const userInfo = {
-        name: "",
-        citizenshipNumber: "",
-        voterID: "",
+        fullName: "",
+        userName: "",
+        level: "",
+        Faculty: "",
         password: ""
     }
     const [formFields, setFormFields] = useState(userInfo)
@@ -35,7 +36,7 @@ const SignUp = () => {
                 <div className="h-full w-full flex items-center justify-center">
                     <img
                         className="mx-auto rounded-md object-cover"
-                        src="https://cdni.iconscout.com/illustration/premium/thumb/sign-up-8044864-6430773.png?f=webp"
+                        src="https://img.freepik.com/free-vector/education-concept-illustration_114360-7988.jpg?w=740&t=st=1692550106~exp=1692550706~hmac=3c88fcdbd39293ea9983bdef43406fc5b586745d0818e2285454cd1de2b8b107"
                         alt=""
                     />
                 </div>
@@ -94,18 +95,18 @@ const SignUp = () => {
                                     <div className="flex items-center justify-between">
                                         <label htmlFor="citizenshipNumber" className="text-base font-medium text-gray-900">
                                             {' '}
-                                            Citizenship Number{' '}
+                                            User Name{' '}
                                         </label>
                                     </div>
                                     <div className="mt-2">
                                         <input
                                             className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                                            type="citizenshipNumber"
-                                            placeholder="citizenshipNumber"
-                                            id="citizenshipNumber"
-                                            name="citizenshipNumber"
+                                            type="userName"
+                                            placeholder="userName"
+                                            id="userName"
+                                            name="userName"
                                             onChange={changeHandler}
-                                            value={formFields.citizenshipNumber}
+                                            value={formFields.userName}
                                             required
                                         ></input>
                                     </div>
@@ -113,25 +114,44 @@ const SignUp = () => {
 
                                 <div>
                                     <div className="flex items-center justify-between">
-                                        <label htmlFor="citizenshipNumber" className="text-base font-medium text-gray-900">
+                                        <label htmlFor="level" className="text-base font-medium text-gray-900">
                                             {' '}
-                                            Voter ID{' '}
+                                            Level {' '}
                                         </label>
                                     </div>
                                     <div className="mt-2">
                                         <input
                                             className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                                            type="voterID"
-                                            placeholder="voterID"
-                                            id="voterID"
-                                            name="voterID"
+                                            type="level"
+                                            placeholder="level"
+                                            id="level"
+                                            name="level"
                                             value={formFields.voterID}
                                             onChange={changeHandler}
                                             required
                                         ></input>
                                     </div>
                                 </div>
-
+                                <div>
+                                    <div className="flex items-center justify-between">
+                                        <label htmlFor="faculty" className="text-base font-medium text-gray-900">
+                                            {' '}
+                                            Faculty {' '}
+                                        </label>
+                                    </div>
+                                    <div className="mt-2">
+                                        <input
+                                            className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                                            type="faculty"
+                                            placeholder="faculty"
+                                            id="faculty"
+                                            name="faculty"
+                                            value={formFields.voterID}
+                                            onChange={changeHandler}
+                                            required
+                                        ></input>
+                                    </div>
+                                </div>
 
                                 <div>
                                     <div className="flex items-center justify-between">
@@ -158,7 +178,7 @@ const SignUp = () => {
                                 <div>
                                     <button
                                         type="submit"
-                                        className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
+                                        className="inline-flex w-full items-center justify-center rounded-md bg-blue-600  px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
                                     >
                                         Create Account <ArrowRight className="ml-2" size={16} />
                                     </button>

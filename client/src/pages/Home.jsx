@@ -68,11 +68,11 @@ const Home = () => {
         </div>
 
         <div className='mt-5 mb-8 font-bold text-lg'>
-          <p>And E-Learning is great tool to learn!</p>
+          <p>And Online Exam is great tool to learn!</p>
         </div>
 
         <div>
-          <button className='bg-[#E03A11] py-3 px-5 rounded-sm'>EXPLORE WITH US</button>
+          <button className='bg-[#0D6EFD] py-3 px-5 rounded-sm'>EXPLORE WITH US</button>
         </div>
 
       </div>

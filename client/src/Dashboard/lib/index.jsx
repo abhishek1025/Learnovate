@@ -17,29 +17,5 @@ export const DASHBOARD_SIDEBAR_LINKS = [
         path: '/admin/create-category',
         icon: <HiOutlineCube />,
     },
-    {
-        key: 'add-candidate',
-        label: 'Add Candidate',
-        path: '/admin/add-candidate',
-        icon: <HiOutlineCube />,
-    },
 
-    {
-        key: 'total-user',
-        label: 'Total Users',
-        path: '/admin/total-user',
-        icon: <HiOutlineCube />,
-    },
-    {
-        key: 'total-candidate',
-        label: 'Total Candidate',
-        path: '/admin/total-candidate',
-        icon: <HiOutlineCube />,
-    },
-    {
-        key: 'total-voting',
-        label: 'Total Voting',
-        path: '/admin/total-voting',
-        icon: <HiOutlineCube />,
-    },
 ];

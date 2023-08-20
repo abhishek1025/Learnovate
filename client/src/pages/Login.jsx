@@ -7,7 +7,7 @@ import Footer from '../comps/Footer'
 const Login = () => {
 
     const userInfo = {
-        voterID: "",
+        username: "",
         password: ""
     }
     const [formFields, setFormFields] = useState(userInfo)
@@ -32,7 +32,7 @@ const Login = () => {
                 <div className="h-full w-full flex items-center justify-center">
                     <img
                         className="mx-auto rounded-md object-cover"
-                        src="https://cdni.iconscout.com/illustration/premium/thumb/sign-up-8044864-6430773.png?f=webp"
+                        src="https://img.freepik.com/free-vector/forgot-password-concept-illustration_114360-1123.jpg?w=740&t=st=1692550167~exp=1692550767~hmac=8c9d1447e7a4e136ac4b4cc8daf4f14f150d767bfcebe6cb4fa3af805e5a8331"
                         alt=""
                     />
                 </div>
@@ -57,16 +57,16 @@ const Login = () => {
                                     <div className="flex items-center justify-between">
                                         <label htmlFor="citizenshipNumber" className="text-base font-medium text-gray-900">
                                             {' '}
-                                            Voter ID{' '}
+                                            User Name{' '}
                                         </label>
                                     </div>
                                     <div className="mt-2">
                                         <input
                                             className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                                            type="voterID"
-                                            placeholder="voterID"
-                                            id="voterID"
-                                            name="voterID"
+                                            type="username"
+                                            placeholder="username"
+                                            id="username"
+                                            name="username"
                                             value={formFields.voterID}
                                             onChange={changeHandler}
                                             required
@@ -100,7 +100,7 @@ const Login = () => {
                                 <div>
                                     <button
                                         type="submit"
-                                        className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
+                                        className="inline-flex w-full items-center justify-center rounded-md bg-blue-600 px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
                                     >
                                         Create Account <ArrowRight className="ml-2" size={16} />
                                     </button>

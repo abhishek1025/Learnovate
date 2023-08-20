@@ -127,7 +127,7 @@ export const Contact = () => {
                             <img
                                 alt="Contact us"
                                 className="hidden max-h-full w-full rounded-lg object-cover lg:block"
-                                src="https://img.freepik.com/free-vector/flat-design-illustration-business-communication_52683-76783.jpg?w=740&t=st=1688242623~exp=1688243223~hmac=2e5a7a76e97e07537ce49f3a28fcf891b11a17abdf081ceab34cc796d284e344"
+                                src="https://img.freepik.com/free-vector/get-touch-concept-illustration_114360-2586.jpg?w=740&t=st=1692550454~exp=1692551054~hmac=0c0b3f8a8bf723aee3e6061ee0b47aaaa8672a02677a6f8b8c39568aa0c3939c"
                             />
                         </div>
                     </div>

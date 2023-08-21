@@ -1,2 +1,3 @@
-export * as userController from "./user.controller.js"
-export * as feedbackController from "./feedback.controller.js"
+export * as userController from "./user.controller.js";
+export * as feedbackController from "./feedback.controller.js";
+export * as examController from "./exam.controller.js";

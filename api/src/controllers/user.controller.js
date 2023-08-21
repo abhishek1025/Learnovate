@@ -194,3 +194,21 @@ export const updateUser = asyncErrorHandler(async (req, res) => {
         }
     });
 });
+
+
+// Get emails of all students
+export const getAllStudentEmails = async () => {
+    try {
+        const students = await User.find({ role: 'student' }).select('email');
+
+        if (!students || students.length === 0) {
+            throwError({ statusCode: HttpStatus.NOT_FOUND, message: 'No students found' });
+        }
+
+        const studentEmails = students.map(student => student.email);
+
+        return studentEmails;
+    } catch (error) {
+        return [];
+    }
+};

@@ -1,17 +1,13 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 // Create a schema for the questions
 const questionSchema = new mongoose.Schema({
-    type: {
-        type: String,
-        required: true
-    },
-    text: {
+    question: {
         type: String,
         required: true
     },
     options: [String],
-    correctAnswer: { type: String },
+    correctAns: { type: String },
 });
 
 const examSchema = new mongoose.Schema({
@@ -19,6 +15,11 @@ const examSchema = new mongoose.Schema({
         type: String,
         required: true
     }, // Exam title
+    teacher: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+    },
     subject: {
         type: String,
         required: true
@@ -36,3 +37,4 @@ const examSchema = new mongoose.Schema({
 
 
 export default examSchema;
+

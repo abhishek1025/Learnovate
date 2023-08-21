@@ -63,7 +63,8 @@ export const createUser = asyncErrorHandler(async (req, res) => {
 // Get all Users
 export const getAllUsers = asyncErrorHandler(async (req, res) => {
 
-    const users = await User.find({}, { password: false });
+    const users = await User.find({}, { password: false }).sort({ createdAt: -1 });
+
     sendSuccessResponse({
         res,
         statusCode: HttpStatus.OK,

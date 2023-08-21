@@ -35,7 +35,7 @@ export const createUser = asyncErrorHandler(async (req, res) => {
     const mailMessage = {
         from: process.env.email,
         to: email,
-        subject: 'Welcome to Our E-Learning System!',
+        subject: 'Welcome to Our Online Exam System!',
         html: `
           <p>Hello ${name},</p>
           <p>Welcome to the system! Your account has been created.</p>

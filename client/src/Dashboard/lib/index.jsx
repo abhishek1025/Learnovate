@@ -1,6 +1,9 @@
 import {
     HiOutlineViewGrid,
-    HiOutlineCube,
+    HiOutlineUserAdd,
+    HiOutlineUserGroup,
+    HiOutlineClipboardList,
+    HiOutlineCog,
 } from 'react-icons/hi';
 
 export const DASHBOARD_SIDEBAR_LINKS = [
@@ -10,36 +13,22 @@ export const DASHBOARD_SIDEBAR_LINKS = [
         path: '/admin',
         icon: <HiOutlineViewGrid />,
     },
-
     {
-        key: 'create-category',
-        label: 'Create Category',
-        path: '/admin/create-category',
-        icon: <HiOutlineCube />,
+        key: 'create-users',
+        label: 'Create Users',
+        path: '/admin/create-users',
+        icon: <HiOutlineUserAdd />,
     },
     {
-        key: 'add-candidate',
-        label: 'Add Candidate',
-        path: '/admin/add-candidate',
-        icon: <HiOutlineCube />,
-    },
-
-    {
-        key: 'total-user',
-        label: 'Total Users',
-        path: '/admin/total-user',
-        icon: <HiOutlineCube />,
+        key: 'view-users',
+        label: 'View Users',
+        path: '/admin/view-users',
+        icon: <HiOutlineUserAdd />,
     },
     {
-        key: 'total-candidate',
-        label: 'Total Candidate',
-        path: '/admin/total-candidate',
-        icon: <HiOutlineCube />,
-    },
-    {
-        key: 'total-voting',
-        label: 'Total Voting',
-        path: '/admin/total-voting',
-        icon: <HiOutlineCube />,
-    },
+        key: 'feedback',
+        label: 'Feedback',
+        path: '/admin/feedback',
+        icon: <HiOutlineClipboardList />,
+    }
 ];

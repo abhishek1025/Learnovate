@@ -10,7 +10,7 @@ export default function DashboardStatsGrid() {
                 </div>
                 <div className="pl-4">
                     <span className="text-sm text-gray-500 font-light">
-                        Total Customers
+                        Total Students
                     </span>
                     <div className="flex items-center">
                         <strong className="text-xl text-gray-700 font-semibold">
@@ -25,7 +25,7 @@ export default function DashboardStatsGrid() {
                 </div>
                 <div className="pl-4">
                     <span className="text-sm text-gray-500 font-light">
-                        Total Vendors
+                        Total Teachers
                     </span>
                     <div className="flex items-center">
                         <strong className="text-xl text-gray-700 font-semibold">
@@ -40,7 +40,7 @@ export default function DashboardStatsGrid() {
                 </div>
                 <div className="pl-4">
                     <span className="text-sm text-gray-500 font-light">
-                        Total Approvals
+                        Total Courses
                     </span>
                     <div className="flex items-center">
                         <strong className="text-xl text-gray-700 font-semibold">
@@ -55,7 +55,7 @@ export default function DashboardStatsGrid() {
                 </div>
                 <div className="pl-4">
                     <span className="text-sm text-gray-500 font-light">
-                        Total Pendings
+                        Support Tickets
                     </span>
                     <div className="flex items-center">
                         <strong className="text-xl text-gray-700 font-semibold">

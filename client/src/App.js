@@ -13,6 +13,7 @@ import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
 import CreateUsers from './Dashboard/pages/CreateUsers';
 import ViewUsers from './Dashboard/pages/ViewUsers';
+import AddCourseFiles from './pages/AddCourseFiles';
 
 function App() {
     return (
@@ -28,6 +29,7 @@ function App() {
                     <Route index element={<Dashboard />} />
                     <Route path="/admin/create-users" element={<CreateUsers />} />
                     <Route path="/admin/view-users" element={<ViewUsers />} />
+                    <Route path="/admin/add-course-files" element={<AddCourseFiles />} />
 
                     {/* <Route path="/admin/totalcustomer" element={<TotalUser />} />
                     <Route path="/admin/total-user" element={<TotalUser />} />

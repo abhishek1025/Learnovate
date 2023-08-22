@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
 import { ArrowRight } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Navbar from '../comps/Navbar'
 import Footer from '../comps/Footer'
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 const Login = () => {
+    const navigate = useNavigate();
 
     const userInfo = {
-        username: "",
+        email: "",
         password: ""
     }
     const [formFields, setFormFields] = useState(userInfo)
@@ -18,8 +22,26 @@ const Login = () => {
         })
     }
 
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault();
+        const response = await fetch('/users/login', {
+            method: "POST",
+            body: JSON.stringify(formFields),
+            headers: { "Content-Type": "application/json" }
+        })
+        const responseData = await response.json();
+        console.log(responseData)
+        toast(responseData.message)
+
+
+        // if response is ok, add the data in localstorage
+        if (response.ok) {
+            setFormFields(userInfo)
+            localStorage.setItem("userInfo", JSON.stringify(responseData.data));
+            // after login it navigates to home page
+            navigate("/");
+
+        }
     };
 
     return (
@@ -50,12 +72,12 @@ const Login = () => {
                                 Sign Up
                             </Link>
                         </p>
-                        <form onSubmit={submitHandler} className="mt-8">
+                        <form onSubmit={(e) => submitHandler(e)} className="mt-8">
                             <div className="space-y-5">
 
                                 <div>
                                     <div className="flex items-center justify-between">
-                                        <label htmlFor="citizenshipNumber" className="text-base font-medium text-gray-900">
+                                        <label htmlFor="username" className="text-base font-medium text-gray-900">
                                             {' '}
                                             User Name{' '}
                                         </label>
@@ -63,12 +85,12 @@ const Login = () => {
                                     <div className="mt-2">
                                         <input
                                             className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                                            type="username"
+                                            type="email"
                                             placeholder="username"
                                             id="username"
-                                            name="username"
-                                            value={formFields.voterID}
-                                            onChange={changeHandler}
+                                            name="email"
+                                            value={formFields.email}
+                                            onChange={(e) => changeHandler(e)}
                                             required
                                         ></input>
                                     </div>
@@ -90,7 +112,7 @@ const Login = () => {
                                             id="password"
                                             name='password'
                                             value={formFields.password}
-                                            onChange={changeHandler}
+                                            onChange={(e) => changeHandler(e)}
                                             required
                                         ></input>
                                     </div>
@@ -102,14 +124,14 @@ const Login = () => {
                                         type="submit"
                                         className="inline-flex w-full items-center justify-center rounded-md bg-blue-600 px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
                                     >
-                                        Create Account <ArrowRight className="ml-2" size={16} />
+                                        Login <ArrowRight className="ml-2" size={16} />
                                     </button>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
-
+                <ToastContainer />
             </div>
 
             <Footer />

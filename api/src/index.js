@@ -7,8 +7,15 @@ import cors from 'cors';
 // import http from " http"
 import mongoose from 'mongoose';
 import apiRoutes from './routes/index.route.js';
+import bodyParser from 'body-parser';
+
 const app = express();
 
+app.use(
+    express.urlencoded({
+        extended: false,
+    })
+);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(cookieParser());
@@ -16,6 +23,9 @@ app.use(cors({ origin: '*' }));
 
 // Routes configurations
 app.use('/', apiRoutes);
+
+// Hosting the files
+app.use(express.static("./public"))
 
 // Handling errors in routes
 app.use((err, req, res, next) => {

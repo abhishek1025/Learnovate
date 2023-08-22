@@ -19,7 +19,7 @@ const AddCourseFiles = () => {
 
     const fileInput = useRef()
 
-    
+
 
     const deleteFiles = (fileName) => {
         return () => {
@@ -33,6 +33,10 @@ const AddCourseFiles = () => {
         }
     }
 
+    function generateBoundary() {
+        return '--------------------------' + Date.now().toString(16);
+    }
+
 
     const addCourseMaterials = () => async () => {
 
@@ -41,10 +45,37 @@ const AddCourseFiles = () => {
             return;
         }
 
-        if (links.length == 0 || courseFiles.length === 0) {
+        if (links.length === 0 && courseFiles.length === 0) {
             toast("Add some files or links")
             return;
         }
+
+        const formData = new FormData();
+
+        // Append files individually
+        courseFiles.forEach(file => {
+            formData.append("files", file);
+        });
+
+        // Append links as an array
+        links.forEach(link => {
+            formData.append("links", link);
+        });
+
+        formData.append("examID", selectedExam)
+
+        // Add the _id of teacher who is currently logged in
+        formData.append("teacherID", "64e383133b02a5bc15059ef5")
+
+        console.log(Array.from(formData));
+
+        const res = await fetch("/exam-material", {
+            method: "POST",
+            body: formData
+        })
+
+        console.log(await res.json());
+
     }
 
     const fetchExams = async () => {
@@ -71,7 +102,12 @@ const AddCourseFiles = () => {
                     <option value="">Select Exam</option>
                     {
                         exams.map(({ title, _id, date }) => (
-                            <option value={_id}> {`${title} - ${formatDateTime(date)[0]} | ${formatDateTime(date)[1]}`} </option>
+                            <option
+                                value={_id}
+                                key={_id}
+                            >
+                                {`${title} - ${formatDateTime(date)[0]} | ${formatDateTime(date)[1]}`}
+                            </option>
                         ))
                     }
                 </select>

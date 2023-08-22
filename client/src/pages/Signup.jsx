@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { ArrowRight } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Navbar from '../comps/Navbar'
 import Footer from '../comps/Footer'
+import { ToastContainer } from 'react-toastify'
 
 const SignUp = () => {
 
+    const navigate = useNavigate();
 
     const userInfo = {
         fullName: "",
@@ -14,6 +16,7 @@ const SignUp = () => {
         Faculty: "",
         password: ""
     }
+
     const [formFields, setFormFields] = useState(userInfo)
 
     const changeHandler = (e) => {
@@ -22,14 +25,28 @@ const SignUp = () => {
         })
     }
 
-    const submitHandler = (e) => {
+    const submitHandler = async (e) => {
         e.preventDefault();
+        const response = await fetch("/user/", {
+            method: "POST",
+            body: JSON.stringify(formFields),
+            headers: { "Content-Type": "application/json" }
+        })
+
+        const responseData = await response.json();
+        toast(responseData.message)
+        if (response.ok) {
+            setFormFields(userInfo)
+            navigate("/login")
+        }
+
     };
 
     return (
         <section>
 
             <Navbar />
+            <ToastContainer />
 
             <div className="grid grid-cols-1 lg:grid-cols-2">
 
@@ -54,7 +71,7 @@ const SignUp = () => {
                                 Sign In
                             </Link>
                         </p>
-                        <form onSubmit={submitHandler} className="mt-8">
+                        <form onSubmit={(e) => submitHandler(e)} className="mt-8">
                             <div className="space-y-5">
                                 <div>
                                     <label htmlFor="name" className="text-base font-medium text-gray-900">

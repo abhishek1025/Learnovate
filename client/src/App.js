@@ -14,6 +14,7 @@ import Signup from './pages/Signup.jsx';
 import CreateUsers from './Dashboard/pages/CreateUsers';
 import ViewUsers from './Dashboard/pages/ViewUsers';
 import AddCourseFiles from './pages/AddCourseFiles';
+import ForgotPassword from './pages/ForgotPassword';
 
 function App() {
     return (
@@ -22,6 +23,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/contact" element={<Contact />} />
 
                 {/* Admin */}

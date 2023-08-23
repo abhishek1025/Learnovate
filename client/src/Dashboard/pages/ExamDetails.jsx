@@ -3,21 +3,23 @@ import { useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { formatDateTime } from '../../utils/formatDateAndTime';
 import CreateQuestion from './CreateQuestion';
+import QuestionsList from './QuestionList';
 
 const ExamDetails = () => {
     const { examID } = useParams();
     const [examDetails, setExamDetails] = useState({})
-
+    const [questions, setQuestions] = useState([])
     const fetchExamDetails = async () => {
         const response = await fetch(`/exams/${examID}`)
         const responseData = await response.json()
         setExamDetails(responseData.data)
+        setQuestions(responseData.data.questions)
     }
 
     useEffect(() => {
         fetchExamDetails()
-
     }, [])
+
 
     return (
         <div>
@@ -37,7 +39,10 @@ const ExamDetails = () => {
             </div>
             {/* page for creating question */}
             <div>
-                <CreateQuestion />
+                <CreateQuestion examDetails={examDetails} />
+            </div>
+            <div className='mt-5'>
+                <QuestionsList questions={questions} setQuestions={setQuestions} />
             </div>
         </div>
 

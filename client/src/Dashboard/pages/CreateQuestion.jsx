@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import QuestionsList from './QuestionList';
 
-const CreateQuestion = () => {
+const CreateQuestion = ({ examDetails }) => {
     const { examID } = useParams();
     const defaultQuestionDetails = {
         examID: 123,
@@ -45,10 +45,10 @@ const CreateQuestion = () => {
             toast.error('Failed to create question');
         }
     };
-    console.log("examData", typeof (examData))
 
     return (
-        <div className="min-h-screen mt-5 bg-gray-100">
+        <div className="mt-5 bg-gray-100">
+
             <ToastContainer />
             <div className="bg-white p-8 shadow-md rounded-md">
                 <h1 className="text-2xl font-bold mb-4">Create a New Question</h1>
@@ -87,10 +87,7 @@ const CreateQuestion = () => {
                     </button>
                 </form>
             </div>
-            <div className="bg-white mt-4 p-4 shadow-md rounded-md">
-                <h2 className="text-xl font-semibold mb-2">Questions List</h2>
-                <QuestionsList examID={examID} examData={examData} questionDetails={questionDetails} />
-            </div>
+
         </div>
     );
 };

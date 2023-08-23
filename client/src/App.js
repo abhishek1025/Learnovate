@@ -1,12 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import Layout from './Dashboard/components/shared/Layout.jsx';
-import AddCandidate from './Dashboard/pages/AddCandidate.jsx';
-import CreateCategory from './Dashboard/pages/CreateCategory.jsx';
 import Dashboard from './Dashboard/pages/Dashboard.jsx';
-import TotalCandidate from './Dashboard/pages/TotalCandidate.jsx';
-import TotalUser from './Dashboard/pages/TotalUser.jsx';
-import TotalVoting from './Dashboard/pages/TotalVoting.jsx';
 import { Contact } from './pages/Contact.jsx';
 import Home from './pages/Home';
 import Login from './pages/Login.jsx';
@@ -15,6 +10,14 @@ import CreateUsers from './Dashboard/pages/CreateUsers';
 import ViewUsers from './Dashboard/pages/ViewUsers';
 import AddCourseFiles from './pages/AddCourseFiles';
 import ForgotPassword from './pages/ForgotPassword';
+import Feedback from './Dashboard/pages/Feedback';
+import CreateExam from './Dashboard/pages/CreateExam';
+import ViewExam from './Dashboard/pages/ViewExam';
+import UpdateExam from './Dashboard/pages/UpdateExam';
+import CreateQuestion from './Dashboard/pages/CreateQuestion';
+import ExamDetails from './Dashboard/pages/ExamDetails';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     return (
@@ -32,18 +35,14 @@ function App() {
                     <Route path="/admin/create-users" element={<CreateUsers />} />
                     <Route path="/admin/view-users" element={<ViewUsers />} />
                     <Route path="/admin/add-course-files" element={<AddCourseFiles />} />
-
-                    {/* <Route path="/admin/totalcustomer" element={<TotalUser />} />
-                    <Route path="/admin/total-user" element={<TotalUser />} />
-
-                    <Route path="/admin/total-candidate" element={<TotalCandidate />} />
-
-                    <Route path="/admin/total-voting" element={<TotalVoting />} />
-
-
-                    <Route path="/admin/add-candidate" element={<AddCandidate />} />
-
-                    <Route path="/admin/create-category" element={<CreateCategory />} /> */}
+                    <Route path="/admin/feedback" element={<Feedback />} />
+                    <Route path="/admin/create-exam" element={<CreateExam />} />
+                    <Route path="/admin/create-question" element={<CreateQuestion />}></Route>
+                    <Route path="/admin/view-exam">
+                        <Route index element={<ViewExam />}></Route>
+                        <Route path="/admin/view-exam/:examID" element={<ExamDetails />}></Route>
+                    </Route>
+                    <Route path="/admin/update-exam" element={<UpdateExam />} />
                 </Route>
             </Routes>
         </div>

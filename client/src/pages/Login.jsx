@@ -30,7 +30,6 @@ const Login = () => {
             headers: { "Content-Type": "application/json" }
         })
         const responseData = await response.json();
-        console.log(responseData)
         toast(responseData.message)
 
 
@@ -40,7 +39,6 @@ const Login = () => {
             localStorage.setItem("userInfo", JSON.stringify(responseData.data));
             // after login it navigates to home page
             navigate("/");
-
         }
     };
 

@@ -1,8 +1,10 @@
 import { HttpStatus } from "../constant/constant.js";
 import sendSuccessResponse from "../helper/apiResponseHandler.js";
-import { ExamMaterial } from "../schemaModels/model.js";
+import { Exam, ExamMaterial, User } from "../schemaModels/model.js";
 import asyncErrorHandler from "../utils/asyncHandler.js";
+import sendMail from "../utils/sendMail.js";
 import { throwError } from "../utils/throwError.js";
+import { getAllStudentEmails } from "./user.controller.js";
 
 
 export const addExamMaterials = asyncErrorHandler(async (req, res) => {
@@ -29,7 +31,30 @@ export const addExamMaterials = asyncErrorHandler(async (req, res) => {
         files
     })
 
+    const teacher = await User.findById(teacherID).select("name");
+    const exam = await Exam.findById(examID).select("title");
+
     await examMaterial.save();
+
+    const studentMails = await getAllStudentEmails();
+
+    const emailContent = {
+        from: process.env.email,
+        to: studentMails,
+        subject: 'Notice About Exam Materials',
+        html: `
+        <p>Dear Students,</p>
+
+        <p>We hope this message finds you well. We wanted to inform you that new exam materials for <b> ${exam.title} </b> have been added to your course by your instructor,
+         ${teacher.name}. These materials are designed to aid your preparation and enhance your understanding of the course material.</p>
+
+        <p>You can access these materials by logging into your account on our online learning platform.
+
+        <p>Best regards,</p>
+        <p>Your Online Learning Team</p>`
+    }
+
+    await sendMail(emailContent)
 
     sendSuccessResponse({
         res,

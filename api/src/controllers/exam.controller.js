@@ -58,6 +58,38 @@ export const getAllExams = asyncErrorHandler(async (req, res) => {
 
 });
 
+export const getExamById = asyncErrorHandler(async (req, res) => {
+
+    const examID  = req.params.examID;
+
+    if (!examID) {
+        throwError({
+            statusCode: HttpStatus.BAD_REQUEST,
+            message: 'Exam ID is required',
+        });
+    }
+
+    // Find the exam by ID and populate the teacher field excluding the password
+    const exam = await Exam.findById(examID).populate({
+        path: 'teacher',
+        select: '-password'
+    });
+
+    if (!exam) {
+        throwError({
+            statusCode: HttpStatus.NOT_FOUND,
+            message: 'Exam not found',
+        });
+    }
+
+    sendSuccessResponse({
+        res,
+        statusCode: HttpStatus.OK,
+        message: 'Exam details retrieved successfully',
+        data: exam,
+    });
+});
+
 export const updateExamDetails = asyncErrorHandler(async (req, res) => {
     const examID = req.params.examID;
     const { updatedExamDetails } = req.body;

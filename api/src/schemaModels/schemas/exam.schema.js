@@ -32,7 +32,12 @@ const examSchema = new mongoose.Schema({
         type: Number,
         required: true
     }, // Exam duration in minutes
-    questions: [questionSchema]
+    questions: [questionSchema],
+
+    isExamFinished: {
+        type: Boolean,
+        default: false
+    }
 }, { timestamps: true })
 
 

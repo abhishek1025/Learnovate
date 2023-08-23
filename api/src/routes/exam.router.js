@@ -13,7 +13,7 @@ examRoutes
 examRoutes
     .route("/:examID")
     .post()
-    .get()
+    .get(examController.getExamById)
     .patch(examController.updateExamDetails)
     .delete(examController.deleteExam)
 

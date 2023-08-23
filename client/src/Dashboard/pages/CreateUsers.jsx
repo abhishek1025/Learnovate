@@ -31,7 +31,6 @@ const CreateUsers = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Submitting user:', user);
 
         try {
             const response = await fetch('/users', {
@@ -44,7 +43,7 @@ const CreateUsers = () => {
 
             const responseData = await response.json();
             if (response.ok) {
-                console.log('User created:', user);
+                ('User created:', user);
                 setUser({
                     name: '',
                     email: '',
@@ -52,7 +51,7 @@ const CreateUsers = () => {
                     phoneNumber: '',
                     address: '',
                 });
-                console.log(response)
+                (response)
             }
 
             toast(responseData.message)
@@ -66,7 +65,6 @@ const CreateUsers = () => {
         // Fetch the updated list of users after creating a new user
         const userListResponse = await fetch('/users');
         const userListData = await userListResponse.json();
-        console.log(userListData)
         setUsersLists(userListData.data);
     }
 
@@ -75,8 +73,13 @@ const CreateUsers = () => {
     }, [])
 
     return (
-        <div className="p-4">
-            <h1 className="text-2xl font-semibold mb-4">Create User</h1>
+        <div className="">
+
+            <div className=" px-4 py-2 mb-3 bg-gray-800">
+                <h1 className="text-lg font-semibold text-white">
+                    Create User
+                </h1>
+            </div>
             <form onSubmit={(e) => handleSubmit(e)} className="max-w-sm">
                 <div className="mb-4">
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700">

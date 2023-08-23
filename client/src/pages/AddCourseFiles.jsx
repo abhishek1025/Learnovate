@@ -22,6 +22,7 @@ const AddCourseFiles = () => {
 
 
     const deleteFiles = (fileName) => {
+
         return () => {
             setCourseFiles((prevFiles) => [...prevFiles.filter((file) => file.name !== fileName)])
         }
@@ -31,10 +32,6 @@ const AddCourseFiles = () => {
         return () => {
             setLinks((prevFiles) => [...prevFiles.filter((link) => link !== linkToDelete)])
         }
-    }
-
-    function generateBoundary() {
-        return '--------------------------' + Date.now().toString(16);
     }
 
 
@@ -91,143 +88,125 @@ const AddCourseFiles = () => {
     }, [])
 
     return (
-        <div>
+        <div className=" space-y-6">
 
-            <div className='my-7 space-x-4'>
+            <div className=" px-4 py-2 mb-3 bg-gray-800">
+                <h1 className="text-lg font-semibold text-white">
+                    Add exam materials
+                </h1>
+            </div>
+            <div className="my-7 space-x-4">
                 <select
                     value={selectedExam}
                     onChange={(e) => setSelectedExam(e.target.value)}
-                    className='border border-black'
+                    className="border border-black py-2 pl-1"
                 >
                     <option value="">Select Exam</option>
-                    {
-                        exams.map(({ title, _id, date }) => (
-                            <option
-                                value={_id}
-                                key={_id}
-                            >
-                                {`${title} - ${formatDateTime(date)[0]} | ${formatDateTime(date)[1]}`}
-                            </option>
-                        ))
-                    }
+                    {exams.map(({ title, _id, date }) => (
+                        <option value={_id} key={_id}>
+                            {`${title} - ${formatDateTime(date)[0]} | ${formatDateTime(date)[1]}`}
+                        </option>
+                    ))}
                 </select>
             </div>
 
-
-            <div className='mb-4'>
+            <div className="mb-4">
                 <form
-                    className='space-x-6'
-                    onSubmit={
-                        (e) => {
-                            e.preventDefault();
-                            setCourseFiles((prevFiles) => [...prevFiles, courseFile])
-                            setCourseFile("")
-                            if (fileInput.current) {
-                                fileInput.current.value = '';
-                            }
-                        }}
+                    className="flex items-center space-x-4"
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        setCourseFiles((prevFiles) => [...prevFiles, courseFile]);
+                        setCourseFile("");
+                        if (fileInput.current) {
+                            fileInput.current.value = '';
+                        }
+                    }}
                 >
-
-
                     <input
                         type="file"
                         name="files"
                         onChange={(e) => {
-                            setCourseFile(e.target.files[0])
+                            setCourseFile(e.target.files[0]);
                         }}
                         required
                         ref={fileInput}
+                        className="border border-black py-2 px-4"
                     />
 
-                    <button
-                        className=" text-sm py-2 text-center font-medium rounded-md px-3 text-white bg-blue-600"
-                    >
+                    <button className="text-sm py-2 text-center font-medium rounded-md px-3 text-white bg-blue-600">
                         Add Files
                     </button>
                 </form>
 
-                <h2 className='mt-5 mb-3 border-b '>All Files</h2>
+                <h2 className="mt-5 mb-3 border-b">All Files</h2>
 
-                <ul className=''>
-
-
-                    {courseFiles.length === 0 && "No Files are selected"}
-
-                    {
-                        courseFiles.length !== 0 && courseFiles.map((file, index) => (
-                            <li
-                                key={uuidv4()}
-                                className='flex items-center gap-x-5'
+                <ul>
+                    {courseFiles.length === 0 && <li className="text-gray-600">No Files are selected</li>}
+                    {courseFiles.map((file, index) => (
+                        <li
+                            key={uuidv4()}
+                            className="flex items-center gap-x-3"
+                        >
+                            {index + 1}. {file.name}
+                            <button
+                                className="text-red-600"
+                                onClick={deleteFiles(file.name)}
                             >
-                                {index + 1}. {file.name}
-                                <button
-                                    className='text-red-600'
-                                    onClick={deleteFiles(file.name)}
-                                >
-                                    <AiFillDelete />
-                                </button>
-                            </li>
-                        ))
-                    }
+                                <AiFillDelete />
+                            </button>
+                        </li>
+                    ))}
                 </ul>
             </div>
 
-            <div className='border-b border-black' />
+            <div className="border-b border-black" />
 
-            <div className='mt-4'>
+            <div className="mt-4">
                 <form
-                    className='space-x-6'
+                    className="flex items-center space-x-4"
                     onSubmit={(e) => {
                         e.preventDefault();
-                        setLinks((prevLinks) => [...prevLinks, link])
-                        setLink("")
+                        setLinks((prevLinks) => [...prevLinks, link]);
+                        setLink("");
                     }}
                 >
-
                     <input
                         type="text"
                         name="link"
                         onChange={(e) => setLink(e.target.value)}
-                        className='border border-black py-2 px-2 text-[12px] w-[25%]'
+                        className="border border-black py-2 px-2 text-[12px] w-[25%]"
                         required
                         value={link}
-                        placeholder='https://'
+                        placeholder="https://"
                     />
 
-                    <button
-                        className=" text-sm py-2 text-center font-medium rounded-md px-3 text-white bg-blue-600"
-                    >
+                    <button className="text-sm py-2 text-center font-medium rounded-md px-3 text-white bg-blue-600">
                         Add Link
                     </button>
-
                 </form>
 
-                <h2 className='mt-5 mb-3 border-b '>All Links</h2>
+                <h2 className="mt-5 mb-3 border-b">All Links</h2>
 
-                <ul className=''>
-
-                    {links.length === 0 && "No links are added"}
-
-                    {
-                        links.map((link, index) => (
-                            <li
-                                key={uuidv4()}
-                                className='flex items-center gap-x-5'
+                <ul>
+                    {links.length === 0 && <li className="text-gray-600">No links are added</li>}
+                    {links.map((link, index) => (
+                        <li
+                            key={uuidv4()}
+                            className="flex items-center gap-x-3"
+                        >
+                            {index + 1}. <a href={link} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">{link}</a>
+                            <button
+                                className="text-red-600"
+                                onClick={() => deleteLinks(link)}
                             >
-                                {index + 1}. <a href={link} target='_blank' className='text-blue-600 underline'> {link}</a>
-                                <button
-                                    className='text-red-600'
-                                    onClick={deleteLinks(link)}
-                                >
-                                    <AiFillDelete />
-                                </button>
-                            </li>
-                        ))
-                    }
+                                <AiFillDelete />
+                            </button>
+                        </li>
+                    ))}
                 </ul>
             </div>
 
-            <div className='mt-5'>
+            <div className="mt-5">
                 <button
                     className="p-4 text-center font-medium rounded-md px-3 text-white bg-blue-600"
                     style={{
@@ -235,17 +214,16 @@ const AddCourseFiles = () => {
                         paddingTop: '9px',
                         marginTop: '6px',
                     }}
-                    onClick={addCourseMaterials()}
+                    onClick={addCourseMaterials}
                 >
                     Add Materials
                 </button>
-
             </div>
 
             <ToastContainer />
-
         </div>
-    )
+    );
+
 }
 
 export default AddCourseFiles

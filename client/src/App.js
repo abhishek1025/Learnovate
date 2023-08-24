@@ -18,6 +18,7 @@ import CreateQuestion from './Dashboard/pages/CreateQuestion';
 import ExamDetails from './Dashboard/pages/ExamDetails';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import UpdateQuestion from './Dashboard/pages/UpdateQuestion';
 
 function App() {
     return (
@@ -40,6 +41,7 @@ function App() {
                     <Route path="/admin/create-question" element={<CreateQuestion />}></Route>
                     <Route path="/admin/view-exam">
                         <Route index element={<ViewExam />}></Route>
+                        <Route path="/admin/view-exam/update-question/:examID" element={<UpdateQuestion />}></Route>
                         <Route path="/admin/view-exam/:examID" element={<ExamDetails />}></Route>
                     </Route>
                     <Route path="/admin/update-exam" element={<UpdateExam />} />

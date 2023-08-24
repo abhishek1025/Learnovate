@@ -83,18 +83,18 @@ export const getAllReports = asyncErrorHandler(async (req, res) => {
     });
 });
 
-export const getReportsByExamID = asyncErrorHandler(async (req, res) => {
+export const getReportsByUserID = asyncErrorHandler(async (req, res) => {
 
-    const { examID } = req.params;
+    const { userID } = req.params;
 
-    if (!examID) {
+    if (!userID) {
         throwError({
             statusCode: HttpStatus.BAD_REQUEST,
             message: 'User ID is required'
         })
     }
 
-    const reports = await ExamReport.find({ exam: examID }).populate("exam student");
+    const reports = await ExamReport.find({ student: userID }).populate("exam student");
 
     sendSuccessResponse({
         res,
@@ -118,6 +118,10 @@ export const getReportsByExamIDAndUserID = asyncErrorHandler(async (req, res) =>
     const reports = await ExamReport.findOne({ exam: examID, student: userID })
         .populate({
             path: "exam",
+            populate: {
+                path: "teacher",
+                select: "-password"
+            }
         })
         .populate({
             path: "student",

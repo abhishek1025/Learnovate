@@ -30,7 +30,7 @@ const QuestionsList = ({ questions, setQuestions }) => {
     return (
         <div className="flex justify-center items-center bg-gray-100">
             <ToastContainer />
-            <div className="grid grid-cols-3 w-full md:grid-cols-2 lg:grid-cols-4 gap-4 p-4">
+            <div className="grid grid-cols-3 w-full md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
                 {questions?.map((question, index) => (
                     <div key={index} className="bg-white rounded-md shadow-md p-4">
                         <h3 className="text-lg font-semibold mb-2">Question {index + 1}:</h3>

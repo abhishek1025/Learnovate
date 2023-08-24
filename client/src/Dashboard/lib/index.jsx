@@ -32,9 +32,9 @@ export const DASHBOARD_SIDEBAR_LINKS = [
         icon: <HiOutlineClipboardList />,
     },
     {
-        key: 'Add course',
-        label: 'Add course',
-        path: '/admin/add-course-files',
+        key: 'Add Exam Materials',
+        label: 'Add Exam Materials',
+        path: '/admin/add-exam-materials',
         icon: <HiOutlineClipboardList />,
     },
     {

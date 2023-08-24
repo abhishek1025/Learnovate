@@ -19,6 +19,8 @@ import Home from './pages/Home';
 import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
 import AddExamMaterials from './pages/AddExamMaterials';
+import AllExamsResult from './pages/AllExamsResult';
+import ExamResultDetails from './pages/ExamResultDetails';
 
 function App() {
     return (
@@ -48,6 +50,8 @@ function App() {
 
                 <Route path="/exams" element={<ExamDashboard />} />
                 <Route path="/exams/:examID" element={<ExamRoom />} />
+                <Route path="/results" element={<AllExamsResult />} />
+                <Route path="/results/:examID" element={<ExamResultDetails />} />
             </Routes>
         </div>
     );

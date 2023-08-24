@@ -8,3 +8,22 @@ export const formatDateTime = (date) => {
 
     return [formattedDate, formattedTime];
 };
+
+export const checkExamStartedOrNot = (date, examDuration) => {
+    const examDate = new Date(date)
+    const currentDate = new Date()
+
+    if (currentDate > examDate) {
+
+        const totalTimePassed = ((currentDate - examDate) / 60000).toFixed(0)
+
+
+        if (totalTimePassed > examDuration) {
+            return { examStatus: "end", remainingExamDuration: 0 }
+        }
+
+        return { examStatus: "start", remainingExamDuration:  examDuration - totalTimePassed + 5}
+    }
+
+    return { examStatus: "not started", remainingExamDuration: 0 }
+}

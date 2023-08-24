@@ -60,7 +60,7 @@ export const getAllExams = asyncErrorHandler(async (req, res) => {
 
 export const getExamById = asyncErrorHandler(async (req, res) => {
 
-    const examID  = req.params.examID;
+    const examID = req.params.examID;
 
     if (!examID) {
         throwError({

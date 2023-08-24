@@ -25,6 +25,10 @@ const Navbar = () => {
           Dashboard
         </Link>
 
+        <Link to="/exams" className="p-4">
+          Exams
+        </Link>
+
         <Link
           to="/signup"
           className="p-4 text-center font-medium rounded-md w-24 px-3 text-white bg-blue-600"

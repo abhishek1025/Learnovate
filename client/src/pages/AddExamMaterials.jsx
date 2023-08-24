@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { formatDateTime } from '../utils/formatDateAndTime';
 
 
-const AddCourseFiles = () => {
+const AddExamMaterials = () => {
 
     const [courseFile, setCourseFile] = useState("")
     const [courseFiles, setCourseFiles] = useState([])
@@ -33,10 +33,9 @@ const AddCourseFiles = () => {
             setLinks((prevFiles) => [...prevFiles.filter((link) => link !== linkToDelete)])
         }
     }
+submitting
 
-
-    const addCourseMaterials = () => async () => {
-
+    const addMaterials = async () => {
         if (!selectedExam) {
             toast("Please select the exam")
             return;
@@ -63,8 +62,6 @@ const AddCourseFiles = () => {
 
         // Add the _id of teacher who is currently logged in
         formData.append("teacherID", "64e383133b02a5bc15059ef5")
-
-        console.log(Array.from(formData));
 
         const res = await fetch("/exam-material", {
             method: "POST",
@@ -214,7 +211,8 @@ const AddCourseFiles = () => {
                         paddingTop: '9px',
                         marginTop: '6px',
                     }}
-                    onClick={addCourseMaterials}
+                    type='button'
+                    onClick={addMaterials}
                 >
                     Add Materials
                 </button>
@@ -226,4 +224,4 @@ const AddCourseFiles = () => {
 
 }
 
-export default AddCourseFiles
+export default AddExamMaterials

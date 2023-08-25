@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
 const QuestionsList = ({ questions, setQuestions }) => {
@@ -25,6 +25,8 @@ const QuestionsList = ({ questions, setQuestions }) => {
         }
     };
 
+
+
     return (
         <div className="flex justify-center items-center bg-gray-100">
             <ToastContainer />
@@ -40,7 +42,13 @@ const QuestionsList = ({ questions, setQuestions }) => {
                         </ul>
                         <p className="font-semibold">Correct Answer: {question.options[question.correctAns]}</p>
                         <div className="flex gap-x-4 pt-2">
-                            <button className="w-24 h-8 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition duration-300">Update</button>
+
+                            <Link to={`../update-question/${examID}`}>
+
+                                <button
+                                    className="w-24 h-8 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition duration-300">Update</button>
+                            </Link>
+
                             <button
                                 className="w-24 h-8 rounded-md bg-red-500 text-white hover:bg-red-600 transition duration-300"
                                 onClick={() => handleDeleteQuestion(question._id)}>Delete</button>

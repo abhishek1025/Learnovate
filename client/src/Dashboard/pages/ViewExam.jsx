@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import CreateQuestion from './CreateQuestion'
-import { formatDateTime } from '../../utils/formatDateAndTime'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { formatDateTime } from '../../utils/formatDateAndTime'
 
 const ViewExam = () => {
 

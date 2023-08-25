@@ -11,7 +11,6 @@ const UpdateQuestion = () => {
     });
 
 
-
     const fetchQuestionData = async () => {
         try {
             const response = await fetch(`/exams/${examID}/questions`);

@@ -3,6 +3,7 @@ import { BsCalendarDate } from "react-icons/bs"
 import { BiTimeFive } from "react-icons/bi"
 import { checkExamStartedOrNot, formatDateTime } from '../utils/formatDateAndTime';
 import { Link } from 'react-router-dom';
+import { ImBooks } from "react-icons/im"
 
 const ExamDashboardCard = ({ exam }) => {
 
@@ -10,7 +11,7 @@ const ExamDashboardCard = ({ exam }) => {
 
     const { examStatus, remainingExamDuration } = checkExamStartedOrNot(date, duration);
 
-    const updateExamStatus = (status) => async () => {
+    const updateExamStatus = async (status) => {
 
         const res = await fetch(`/exams/${_id}`, {
             headers: { 'Content-Type': 'application/json' },
@@ -23,7 +24,6 @@ const ExamDashboardCard = ({ exam }) => {
         })
 
         const resData = await res.json();
-        console.log(resData.message);
     }
 
 
@@ -56,7 +56,7 @@ const ExamDashboardCard = ({ exam }) => {
 
                     <div className="flex items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 " role="alert">
                         <p>
-                           
+
                             <Link to="/results" className='cursor-pointer'>
                                 <span className="font-medium">Check your result! </span>
                             </Link>
@@ -102,6 +102,16 @@ const ExamDashboardCard = ({ exam }) => {
                         {duration} Minutes
                     </p>
                 </div>
+
+                <div className='flex gap-x-10 items-center'>
+                    <ImBooks />
+                    <Link to={`/exam-materials/${_id}`}>
+                        <p className='text-blue-600 underline'>
+                            View Exam Materials
+                        </p>
+                    </Link>
+                </div>
+
 
             </div>
 

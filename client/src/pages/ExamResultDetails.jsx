@@ -3,6 +3,7 @@ import Navbar from '../comps/Navbar'
 import Footer from '../comps/Footer'
 import { useParams } from 'react-router-dom'
 import { formatDateTime } from '../utils/formatDateAndTime'
+import { getUserDataFromLocalStorage } from '../utils/getUserDataFromLocalStorage'
 
 const ExamResultDetails = () => {
 
@@ -11,11 +12,9 @@ const ExamResultDetails = () => {
     const [examReport, setExamReport] = useState({});
 
     const fetchExams = async () => {
-        const userID = "64e4dd2fd91f3a02404ec3cf"
-        const res = await fetch(`/exam-reports/${examID}/${userID}`);
+        const res = await fetch(`/exam-reports/${examID}/${getUserDataFromLocalStorage()?.user._id}`);
         const resData = await res.json();
         setExamReport(resData.data)
-        console.log(resData);
     }
 
     useEffect(() => {
@@ -35,7 +34,7 @@ const ExamResultDetails = () => {
                         </div>
                         <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
                             <p>
-                                You might have missed the exam, please contact your respective teacher
+                                You might have missed the exam or failed to submit the exam in time, please contact your respective teacher
                             </p>
                         </div>
                     </div>

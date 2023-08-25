@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { checkExamStartedOrNot, formatDateTime } from '../utils/formatDateAndTime';
 import { ToastContainer, toast } from 'react-toastify';
+import { getUserDataFromLocalStorage } from '../utils/getUserDataFromLocalStorage';
 
 const ExamRoom = () => {
 
@@ -44,6 +45,8 @@ const ExamRoom = () => {
 
     const storeExamReportInDB = async () => {
 
+        const { user } = getUserDataFromLocalStorage();
+
         const newAnswers = answers.map(({ question, selectedAns, correctAns }) => {
             return { question, selectedAns, correctAns }
         })
@@ -53,7 +56,7 @@ const ExamRoom = () => {
             headers: { "Content-type": "application/json" },
             body: JSON.stringify({
                 "examID": examID,
-                "studentID": "64e4dd2fd91f3a02404ec3cf",
+                "studentID": getUserDataFromLocalStorage()?.user._id,
                 answers: newAnswers
             })
         })

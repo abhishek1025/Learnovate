@@ -10,7 +10,7 @@ const ExamDashboardCard = ({ exam }) => {
 
     const { examStatus, remainingExamDuration } = checkExamStartedOrNot(date, duration);
 
-    const updateExamStatus = (status) => async (status) => {
+    const updateExamStatus = (status) => async () => {
 
         const res = await fetch(`/exams/${_id}`, {
             headers: { 'Content-Type': 'application/json' },
@@ -56,7 +56,12 @@ const ExamDashboardCard = ({ exam }) => {
 
                     <div className="flex items-center p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 " role="alert">
                         <p>
-                            <span className="font-medium">Check your result!</span> The exam has finished
+                           
+                            <Link to="/results" className='cursor-pointer'>
+                                <span className="font-medium">Check your result! </span>
+                            </Link>
+
+                            The exam has finished
                         </p>
                     </div>
                 )

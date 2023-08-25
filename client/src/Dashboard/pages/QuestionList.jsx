@@ -43,7 +43,7 @@ const QuestionsList = ({ questions, setQuestions }) => {
                         <p className="font-semibold">Correct Answer: {question.options[question.correctAns]}</p>
                         <div className="flex gap-x-4 pt-2">
 
-                            <Link to={`/update-question/${examID}`}>
+                            <Link to={`../update-question/${examID}`}>
 
                                 <button
                                     className="w-24 h-8 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition duration-300">Update</button>

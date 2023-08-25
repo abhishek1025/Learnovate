@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { checkExamStartedOrNot, formatDateTime } from '../utils/formatDateAndTime';
 import { ToastContainer, toast } from 'react-toastify';
 
@@ -12,6 +12,8 @@ const ExamRoom = () => {
     const { title, teacher, date, questions, subject, duration } = exam;
 
     const [answers, setAnswer] = useState([])
+
+    const [displayMsgAfterExamTimeIsFinished, setDisplayMsgAfterExamTimeIsFinished] = useState(false);
 
     const navigate = useNavigate();
 
@@ -73,6 +75,7 @@ const ExamRoom = () => {
             toast.warning("Please Select All Questions");
             return;
         }
+
         await storeExamReportInDB()
 
     }
@@ -82,11 +85,53 @@ const ExamRoom = () => {
     }, [])
 
 
+    useEffect(() => {
+        const handleVisibilityChange = (e) => {
+            toast.warning("Don't leave the page, otherwise you will be considered fail in the exam");
+        };
+
+        window.addEventListener("visibilitychange", handleVisibilityChange);
+
+        return () => {
+            window.removeEventListener("visibilitychange", handleVisibilityChange);
+        };
+    }, []);
 
     return (
         <div className='py-10'>
 
-            <ToastContainer />
+            <ToastContainer style={{ width: "400px" }} />
+
+            {
+                displayMsgAfterExamTimeIsFinished && <div className='fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black bg-opacity-80 flex items-center justify-center w-full h-[100%]'>
+
+                    <div className="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md w-[400px] h-[230px]" role="alert">
+
+                        <div className='flex flex-col items-center justify-center gap-y-3'>
+
+                            <div class="py-1">
+                                <svg className="fill-current h-10 w-10 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" /></svg>
+                            </div>
+                            <div className='text-center h-full'>
+                                <p class="font-bold">Exam Time Expired</p>
+                                <p class="text-sm">
+                                    The allotted time for the exam has ended. Thank you for taking the exam.
+                                </p>
+
+                            </div>
+
+                            <Link to="/exams">
+                                <p className="bg-blue-500 hover:bg-blue-600 w-[100px] text-white py-2 px-4 rounded">
+                                    Go Back
+                                </p>
+                            </Link>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            }
 
             {
                 Object.keys(exam).length !== 0 && (
@@ -100,7 +145,11 @@ const ExamRoom = () => {
 
                             <section className='w-[35%] m-auto space-y-1'>
 
-                                <Timer duration={duration} date={date} />
+                                <Timer
+                                    duration={duration}
+                                    date={date}
+                                    setDisplayMsgAfterExamTimeIsFinished={setDisplayMsgAfterExamTimeIsFinished}
+                                />
 
 
                                 <p className='flex gap-x-4'>
@@ -126,9 +175,15 @@ const ExamRoom = () => {
 
                         <div className='w-[60%] m-auto my-16'>
                             <div className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-4" role="alert">
-                                <p className="font-bold">Be Careful</p>
+                                <p className="font-bold">Be Careful, Important!!</p>
+                                <p className='mt-3'>
+                                    You will be failed if you:
+                                </p>
                                 <p>
-                                    Leaving this page/tab multiple times will automatically submit the exam.
+                                    - leave the tab multiple times
+                                </p>
+                                <p>
+                                    - are not able to submit with in the exam time (The portal will be closed)
                                 </p>
                             </div>
 
@@ -196,7 +251,7 @@ const ExamRoom = () => {
 
 export default ExamRoom
 
-const Timer = ({ duration, date }) => {
+const Timer = ({ duration, date, setDisplayMsgAfterExamTimeIsFinished }) => {
 
     const { remainingExamDuration } = checkExamStartedOrNot(date, duration);
 
@@ -209,6 +264,8 @@ const Timer = ({ duration, date }) => {
         const interval = setInterval(() => {
             if (seconds > 0) {
                 setSeconds(seconds - 1);
+            } else {
+                setDisplayMsgAfterExamTimeIsFinished(true)
             }
         }, 1000);
 

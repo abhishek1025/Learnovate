@@ -26,7 +26,7 @@ const ViewExam = () => {
                 </h1>
             </div>
             {/* cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 justify-between gap-8">
                 {examData.map((data) => (
                     <div key={data._id} className="bg-white shadow-md rounded-lg overflow-hidden">
                         <div

@@ -33,7 +33,6 @@ const AddExamMaterials = () => {
             setLinks((prevFiles) => [...prevFiles.filter((link) => link !== linkToDelete)])
         }
     }
-submitting
 
     const addMaterials = async () => {
         if (!selectedExam) {

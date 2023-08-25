@@ -13,8 +13,8 @@ examRouter
 
 
 examRouter
-    .route("/:examID")
-    .get(examReportController.getReportsByExamID)
+    .route("/:userID")
+    .get(examReportController.getReportsByUserID)
     .post()
     .patch()
     .delete()

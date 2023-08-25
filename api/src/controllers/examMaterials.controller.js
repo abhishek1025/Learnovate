@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { HttpStatus } from "../constant/constant.js";
 import sendSuccessResponse from "../helper/apiResponseHandler.js";
 import { Exam, ExamMaterial, User } from "../schemaModels/model.js";
@@ -84,3 +85,48 @@ export const getAllExamMaterials = async (req, res) => {
         message: "All exam materials"
     })
 }
+
+export const getAllExamMaterialByExamID = asyncErrorHandler(async (req, res) => {
+
+    const examID = req.params.examID
+
+    if (!examID) {
+        throwError({
+            message: "Exam ID is required",
+            statusCode: HttpStatus.BAD_REQUEST
+        })
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(examID)) {
+        throwError({
+            message: "No Materials has been added for this exam",
+            statusCode: HttpStatus.NOT_FOUND
+        })
+    }
+
+    const examMaterials = await ExamMaterial
+        .find({ exam: examID })
+        .populate({
+            path: "exam",
+            select: "title date duration subject"
+        })
+        .populate({
+            path: "teacher",
+            select: "-password"
+        })
+
+    if (!examMaterials) {
+        throwError({
+            message: "No Materials has been added for this exam",
+            statusCode: HttpStatus.NOT_FOUND
+        })
+    }
+
+    sendSuccessResponse({
+        res,
+        statusCode: HttpStatus.OK,
+        data: examMaterials,
+        message: "All exam materials"
+    })
+}
+)

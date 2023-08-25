@@ -21,6 +21,8 @@ import Signup from './pages/Signup.jsx';
 import AddExamMaterials from './pages/AddExamMaterials';
 import AllExamsResult from './pages/AllExamsResult';
 import ExamResultDetails from './pages/ExamResultDetails';
+import ExamMaterials from './pages/ExamMaterials';
+import FeedbackForm from './pages/FeedbackForm';
 
 function App() {
     return (
@@ -52,6 +54,8 @@ function App() {
                 <Route path="/exams/:examID" element={<ExamRoom />} />
                 <Route path="/results" element={<AllExamsResult />} />
                 <Route path="/results/:examID" element={<ExamResultDetails />} />
+                <Route path="/exam-materials/:examID" element={<ExamMaterials />} />
+                <Route path="/feedback" element={<FeedbackForm />} />
             </Routes>
         </div>
     );

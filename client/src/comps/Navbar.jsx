@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
+import { getUserDataFromLocalStorage } from '../utils/getUserDataFromLocalStorage';
 
 const Navbar = () => {
   const [nav, setNav] = useState(false);
@@ -33,6 +34,10 @@ const Navbar = () => {
           Results
         </Link>
 
+        <Link to="/feedback" className="p-4">
+          Feedback
+        </Link>
+        {/* 
         <Link
           to="/signup"
           className="p-4 text-center font-medium rounded-md w-24 px-3 text-white bg-blue-600"
@@ -43,7 +48,38 @@ const Navbar = () => {
           }}
         >
           SignUp
-        </Link>
+        </Link> */}
+
+        {
+          getUserDataFromLocalStorage()?.user ? (
+
+            <Link
+              to="/login"
+              className="p-4 text-center font-medium rounded-md w-24 px-3 text-white bg-blue-600"
+              style={{
+                height: '40px',
+                paddingTop: '9px',
+                marginTop: '6px',
+              }}
+              onClick={() => localStorage.removeItem("userInfo")}
+            >
+              LogOut
+            </Link>
+
+          ) : (
+            <Link
+              to="/login"
+              className="p-4 text-center font-medium rounded-md w-24 px-3 text-white bg-blue-600"
+              style={{
+                height: '40px',
+                paddingTop: '9px',
+                marginTop: '6px',
+              }}
+            >
+              Login
+            </Link>
+          )
+        }
       </ul>
     </div>
   );

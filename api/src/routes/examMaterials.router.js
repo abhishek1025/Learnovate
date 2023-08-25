@@ -9,5 +9,10 @@ examMaterialRouter
     .post(upload.array("files"), examMaterialController.addExamMaterials)
     .get(examMaterialController.getAllExamMaterials)
 
+examMaterialRouter
+    .route("/:examID")
+    .post()
+    .get(examMaterialController.getAllExamMaterialByExamID)
+
 
 export default examMaterialRouter;

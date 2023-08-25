@@ -61,7 +61,7 @@ const Login = () => {
 
                     <div className="xl:mx-auto xl:w-full xl:max-w-sm 2xl:max-w-md ">
                         <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl">Sign In</h2>
-                        <p className="mt-2 text-base text-gray-600">
+                        {/* <p className="mt-2 text-base text-gray-600">
                             Don't have an account?{' '}
                             <Link
                                 to="/signup"
@@ -69,7 +69,7 @@ const Login = () => {
                             >
                                 Sign Up
                             </Link>
-                        </p>
+                        </p> */}
                         <form onSubmit={(e) => submitHandler(e)} className="mt-8">
                             <div className="space-y-5">
 
@@ -77,7 +77,7 @@ const Login = () => {
                                     <div className="flex items-center justify-between">
                                         <label htmlFor="username" className="text-base font-medium text-gray-900">
                                             {' '}
-                                            User Name{' '}
+                                            Email{' '}
                                         </label>
                                     </div>
                                     <div className="mt-2">

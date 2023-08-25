@@ -86,7 +86,7 @@ const Home = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {featureData.map((feature, index) => (
               <div
-                key={index}
+                key={index * Math.random()}
                 className="flex flex-col items-center justify-center p-6 bg-white shadow-md rounded-lg text-center"
               >
                 <div className="mb-4">{feature.icon}</div>
@@ -115,7 +115,7 @@ const Home = () => {
 
             {
               benefitsContent.slice(0, 3).map(({ heading, text }) => (
-                <div>
+                <div key={heading}>
                   <h2 className='font-semibold'>{heading}</h2>
                   <p className='text-gray-500 mt-2'>{text}</p>
                 </div>
@@ -134,7 +134,7 @@ const Home = () => {
 
             {
               benefitsContent.slice(3).map(({ heading, text }) => (
-                <div>
+                <div key={heading}>
                   <h2 className='font-semibold'>{heading}</h2>
                   <p className='text-gray-500 mt-2'>{text}</p>
                 </div>

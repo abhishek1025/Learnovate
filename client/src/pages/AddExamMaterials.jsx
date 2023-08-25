@@ -3,6 +3,7 @@ import { AiFillDelete } from 'react-icons/ai';
 import { ToastContainer, toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
 import { formatDateTime } from '../utils/formatDateAndTime';
+import { getUserDataFromLocalStorage } from '../utils/getUserDataFromLocalStorage';
 
 
 const AddExamMaterials = () => {
@@ -19,6 +20,7 @@ const AddExamMaterials = () => {
 
     const fileInput = useRef()
 
+    const [displayLoadingMessage, setDisplayLoadingMessage] = useState(false);
 
 
     const deleteFiles = (fileName) => {
@@ -60,15 +62,25 @@ const AddExamMaterials = () => {
         formData.append("examID", selectedExam)
 
         // Add the _id of teacher who is currently logged in
-        formData.append("teacherID", "64e383133b02a5bc15059ef5")
+        formData.append("teacherID", getUserDataFromLocalStorage()?.user._id)
+
+        setDisplayLoadingMessage(true);
 
         const res = await fetch("/exam-material", {
             method: "POST",
             body: formData
         })
 
-        console.log(await res.json());
+        const resMsg = await res.json()
 
+        toast(resMsg.message)
+
+        if (res.ok) {
+            setCourseFiles([])
+            setLinks([])
+            setSelectedExam("")
+            setDisplayLoadingMessage(false)
+        }
     }
 
     const fetchExams = async () => {
@@ -85,6 +97,17 @@ const AddExamMaterials = () => {
 
     return (
         <div className=" space-y-6">
+
+            <ToastContainer />
+
+            {
+                displayLoadingMessage && (
+                    <div className="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+                        <p className="font-bold">Informational message</p>
+                        <p className="text-sm">Please Wait, the course material is being added</p>
+                    </div>
+                )
+            }
 
             <div className=" px-4 py-2 mb-3 bg-gray-800">
                 <h1 className="text-lg font-semibold text-white">

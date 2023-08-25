@@ -14,7 +14,8 @@ export const addExamMaterials = asyncErrorHandler(async (req, res) => {
 
     if (!teacherID || !examID) {
         throwError({
-            message: "Exam ID or Teacher ID is missing"
+            message: "Exam ID or Teacher ID is missing",
+            statusCode: HttpStatus.BAD_REQUEST
         })
     }
 
@@ -32,8 +33,15 @@ export const addExamMaterials = asyncErrorHandler(async (req, res) => {
         files
     })
 
-    const teacher = await User.findById(teacherID).select("name");
-    const exam = await Exam.findById(examID).select("title");
+    const teacher = await User.findById(teacherID);
+    const exam = await Exam.findById(examID);
+
+    if (!teacher || !exam) {
+        throwError({
+            message: "Exam or Teacher does not exist",
+            statusCode: HttpStatus.NOT_FOUND
+        })
+    }
 
     await examMaterial.save();
 
@@ -46,7 +54,7 @@ export const addExamMaterials = asyncErrorHandler(async (req, res) => {
         html: `
         <p>Dear Students,</p>
 
-        <p>We hope this message finds you well. We wanted to inform you that new exam materials for <b> ${exam.title} </b> have been added to your course by your instructor,
+        <p>We hope this message finds you well. We wanted to inform you that new exam materials for the exam <b> "${exam.title}" </b> have been added by your instructor,
          ${teacher.name}. These materials are designed to aid your preparation and enhance your understanding of the course material.</p>
 
         <p>You can access these materials by logging into your account on our online learning platform.

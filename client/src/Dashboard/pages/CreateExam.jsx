@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import { formatDateTime } from '../../utils/formatDateAndTime';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import CreateQuestion from './CreateQuestion';
-import { useParams } from 'react-router-dom';
 
 const CreateExam = () => {
 
@@ -153,7 +150,7 @@ const CreateExam = () => {
 
       </div>
 
-    </div >
+    </div>
   );
 };
 

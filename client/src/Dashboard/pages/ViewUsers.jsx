@@ -160,22 +160,22 @@ const ViewUsers = () => {
                 <table className="w-full border-collapse">
                     <thead>
                         <tr>
-                            <th className="p-3 font-medium text-left text-gray-800 border border-gray-300">
+                            <th className="p-3 font-bold text-left text-gray-800 border border-gray-300">
                                 Name
                             </th>
-                            <th className="p-3 font-medium text-left text-gray-800 border border-gray-300">
+                            <th className="p-3 font-bold text-left text-gray-800 border border-gray-300">
                                 E-mail
                             </th>
-                            <th className="p-3 font-medium text-left text-gray-800 border border-gray-300">
+                            <th className="p-3 font-bold text-left text-gray-800 border border-gray-300">
                                 Role
                             </th>
-                            <th className="p-3 font-medium text-left text-gray-800 border border-gray-300">
+                            <th className="p-3 font-bold text-left text-gray-800 border border-gray-300">
                                 Phone Number
                             </th>
-                            <th className="p-3 font-medium text-left text-gray-800 border border-gray-300">
+                            <th className="p-3 font-bold text-left text-gray-800 border border-gray-300">
                                 Address
                             </th>
-                            <th className="p-3 font-medium text-left text-gray-800 border border-gray-300">
+                            <th className="p-3 font-bold text-left text-gray-800 border border-gray-300">
 
                             </th>
                         </tr>

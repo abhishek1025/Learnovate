@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Feedback = () => {
     const [feedbacks, setFeedbacks] = useState([]);
+    
 
     const handleDelete = async (_id) => {
         const response = await fetch(`/feedbacks/${_id}`, {

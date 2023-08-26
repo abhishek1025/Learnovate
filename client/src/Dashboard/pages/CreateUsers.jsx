@@ -80,7 +80,7 @@ const CreateUsers = () => {
                     Create User
                 </h1>
             </div>
-            <form onSubmit={(e) => handleSubmit(e)} className="max-w-sm">
+            <form onSubmit={(e) => handleSubmit(e)} className="bg-white p-10 shadow-md rounded-lg">
                 <div className="mb-4">
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                         Name

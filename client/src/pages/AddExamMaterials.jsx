@@ -96,7 +96,7 @@ const AddExamMaterials = () => {
     }, [])
 
     return (
-        <div className=" space-y-6">
+        <div>
 
             <ToastContainer />
 
@@ -109,12 +109,12 @@ const AddExamMaterials = () => {
                 )
             }
 
-            <div className=" px-4 py-2 mb-3 bg-gray-800">
+            <div className="px-4 py-2 mb-5 bg-gray-800">
                 <h1 className="text-lg font-semibold text-white">
                     Add exam materials
                 </h1>
             </div>
-            <div className="my-7 space-x-4">
+            <div className="mb-7 space-x-4 px-5">
                 <select
                     value={selectedExam}
                     onChange={(e) => setSelectedExam(e.target.value)}
@@ -129,7 +129,7 @@ const AddExamMaterials = () => {
                 </select>
             </div>
 
-            <div className="mb-4">
+            <div className="mb-4  px-5">
                 <form
                     className="flex items-center space-x-4"
                     onSubmit={(e) => {
@@ -178,9 +178,9 @@ const AddExamMaterials = () => {
                 </ul>
             </div>
 
-            <div className="border-b border-black" />
+            <div className="border-b border-black  mx-5" />
 
-            <div className="mt-4">
+            <div className="mt-4  px-5">
                 <form
                     className="flex items-center space-x-4"
                     onSubmit={(e) => {
@@ -225,7 +225,7 @@ const AddExamMaterials = () => {
                 </ul>
             </div>
 
-            <div className="mt-5">
+            <div className="mt-5 px-5">
                 <button
                     className="p-4 text-center font-medium rounded-md px-3 text-white bg-blue-600"
                     style={{
@@ -240,7 +240,6 @@ const AddExamMaterials = () => {
                 </button>
             </div>
 
-            <ToastContainer />
         </div>
     );
 

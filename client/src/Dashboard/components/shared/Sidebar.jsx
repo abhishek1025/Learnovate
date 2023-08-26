@@ -19,10 +19,9 @@ export default function Sidebar() {
 
     return (
         <div className="bg-[#1b2138] w-60 p-3 flex flex-col">
-            <div className="flex items-center gap-2 px-1 py-3">
+            <div className="text-white font-bold text text-2xl text-center mt-5">
                 <Link
                     to="/"
-                    className="text-white font-bold text text-2xl text-center ml-12"
                 >
                     Online Exam
                 </Link>

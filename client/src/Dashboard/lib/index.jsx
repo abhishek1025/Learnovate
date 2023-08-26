@@ -52,7 +52,7 @@ export const DASHBOARD_SIDEBAR_LINKS = [
     {
         key: 'Update Exam',
         label: 'Update Exam',
-        path: '/admin/update-exam',
+        path: '/admin/update-exam/:examID',
         icon: <HiOutlineClipboardList />,
     },
 

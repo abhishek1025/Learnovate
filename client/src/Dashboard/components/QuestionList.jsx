@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useHistory } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
 const QuestionsList = ({ questions, setQuestions, setOperationTypeForForm }) => {
@@ -23,9 +23,19 @@ const QuestionsList = ({ questions, setQuestions, setOperationTypeForForm }) => 
             toast(responseData.message);
             setQuestions(updatedQuestions);
         }
-    };
+    }
 
+    const [questionStates, setQuestionStates] = useState([]);
 
+    useEffect(() => {
+        const initialStates = questions.map((question) => ({
+            questionID: question._id,
+            question: question.question,
+            options: [...question.options],
+            correctAns: question.correctAns,
+        }));
+        setQuestionStates(initialStates);
+    }, [questions]);
 
     return (
         <div className="flex justify-center items-center bg-gray-100">

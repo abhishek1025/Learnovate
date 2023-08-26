@@ -21,6 +21,7 @@ import Home from './pages/Home';
 import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
 import CreateExam from './Dashboard/pages/CreateExam';
+import UpdateExam from './Dashboard/pages/UpdateExam';
 
 function App() {
     return (
@@ -39,6 +40,7 @@ function App() {
                     <Route path="/admin/view-users" element={<ViewUsers />} />
                     <Route path="/admin/add-exam-materials" element={<AddExamMaterials />} />
                     <Route path="/admin/feedback" element={<Feedback />} />
+                    <Route path="/admin/update-exam/:examID" element={<UpdateExam />} />
 
                     <Route path="/admin/create-exam" element={<CreateExam />} />
 
@@ -46,7 +48,6 @@ function App() {
                         <Route index element={<ViewExam />} />
                         <Route path="/admin/view-exam/:examID" element={<ExamDetails />} />
                     </Route>
-
                 </Route>
 
                 <Route path="/exams" element={<ExamDashboard />} />
@@ -55,7 +56,7 @@ function App() {
                 <Route path="/results" element={<AllExamsResult />} />
                 <Route path="/results/:examID" element={<ExamResultDetails />} />
                 <Route path="/exam-materials/:examID" element={<ExamMaterials />} />
-                
+
                 <Route path="/feedback" element={<FeedbackForm />} />
             </Routes>
         </div>

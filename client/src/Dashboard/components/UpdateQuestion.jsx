@@ -16,6 +16,7 @@ const UpdateQuestion = ({ questions, setQuestions }) => {
     const handleUpdateQuestion = async (e) => {
         e.preventDefault();
 
+<<<<<<< HEAD:client/src/Dashboard/pages/UpdateQuestion.jsx
         const response = await fetch(`/exams/${examID}/${questions._id}`, {
             method: 'PATCH',
             headers: {
@@ -37,6 +38,15 @@ const UpdateQuestion = ({ questions, setQuestions }) => {
                 updatedQuestions[updatedQuestionIndex] = responseData.updatedQuestion;
                 setQuestions(updatedQuestions);
             }
+=======
+    const fetchQuestionData = async () => {
+        try {
+            const response = await fetch(`/exams/${examID}/questions`);
+            const data = await response.json();
+            setQuestion(data);
+        } catch (error) {
+            console.error(error);
+>>>>>>> 890870ddc52e0d1073984372de350c93e4f8d6af:client/src/Dashboard/components/UpdateQuestion.jsx
         }
     };
 

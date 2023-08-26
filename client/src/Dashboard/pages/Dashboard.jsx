@@ -45,7 +45,10 @@ export default function Dashboard() {
 	const examReportsPassFailCount = useMemo(() => {
 		return examReports.reduce((prevValues, { exam, percentageScored }) => {
 
-			const prevValue = prevValues.find(({ examTitle }) => examTitle === exam.title)
+			const prevValue = prevValues.find(({ examTitle }) => {
+				console.log(examTitle === exam.title);
+				return examTitle === exam.title
+			})
 
 			if (prevValue) {
 				if (percentageScored >= 40) {
@@ -54,7 +57,7 @@ export default function Dashboard() {
 					prevValue.failCount++;
 				}
 
-				return [...prevValues, prevValue];
+				return [...prevValues.filter(prevExamValue => prevExamValue.examTitle != exam.title), prevValue];
 			}
 
 			const isPassed = percentageScored >= 40;

@@ -21,7 +21,10 @@ import Home from './pages/Home';
 import Login from './pages/Login.jsx';
 import Signup from './pages/Signup.jsx';
 import CreateExam from './Dashboard/pages/CreateExam';
-import UpdateExam from './Dashboard/pages/UpdateExam';
+import ExamResultsDashboard from './Dashboard/pages/ExamResultsDashboard';
+import AllStudentMarksList from './Dashboard/pages/AllStudentMarksList';
+import ProfilePage from './pages/ProfilePage';
+
 
 function App() {
     return (
@@ -33,6 +36,8 @@ function App() {
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/contact" element={<Contact />} />
 
+                <Route path="/profile" element={<ProfilePage />} />
+                
                 {/* Admin */}
                 <Route path="/admin" element={<Layout />}>
                     <Route index element={<Dashboard />} />
@@ -40,7 +45,6 @@ function App() {
                     <Route path="/admin/view-users" element={<ViewUsers />} />
                     <Route path="/admin/add-exam-materials" element={<AddExamMaterials />} />
                     <Route path="/admin/feedback" element={<Feedback />} />
-                    <Route path="/admin/update-exam/:examID" element={<UpdateExam />} />
 
                     <Route path="/admin/create-exam" element={<CreateExam />} />
 
@@ -48,6 +52,12 @@ function App() {
                         <Route index element={<ViewExam />} />
                         <Route path="/admin/view-exam/:examID" element={<ExamDetails />} />
                     </Route>
+
+                    <Route path="/admin/results">
+                        <Route index element={<ExamResultsDashboard />} />
+                        <Route path=':examID' element={<AllStudentMarksList />} />
+                    </Route>
+
                 </Route>
 
                 <Route path="/exams" element={<ExamDashboard />} />

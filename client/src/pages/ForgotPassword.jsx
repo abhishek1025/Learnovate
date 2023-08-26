@@ -4,6 +4,7 @@ import Footer from '../comps/Footer';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar from '../comps/Navbar';
+import { useNavigate } from 'react-router-dom';
 
 function ForgotPassword() {
     const [formData, setFormData] = useState({
@@ -11,6 +12,8 @@ function ForgotPassword() {
         oldPassword: '',
         newPassword: ''
     });
+
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -33,9 +36,17 @@ function ForgotPassword() {
         })
 
         const responseData = await response.json();
+
         if (response.ok) {
-            toast(responseData.message)
+            toast.success(responseData.message)
+            setTimeout(() => {
+                navigate("/login")
+                localStorage.removeItem("userInfo")
+            }, 3000)
+            return;
         }
+
+        toast.error(responseData.message);
     };
 
     return (

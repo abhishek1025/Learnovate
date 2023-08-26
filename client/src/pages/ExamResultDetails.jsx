@@ -47,7 +47,7 @@ const ExamResultDetails = () => {
                     {/* Exam title  */}
                     <div>
 
-                        <h1 className='text-4xl w-[60%] m-auto text-center'>Welcome User, Your Test Results</h1>
+                        <h1 className='text-4xl w-[60%] m-auto text-center'>Welcome {getUserDataFromLocalStorage()?.user.name}, Your Test Results</h1>
 
                         <div className='w-[60%] m-auto'>
 

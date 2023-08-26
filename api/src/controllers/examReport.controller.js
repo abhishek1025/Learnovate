@@ -83,6 +83,27 @@ export const getAllReports = asyncErrorHandler(async (req, res) => {
     });
 });
 
+export const getReportsByExamID = asyncErrorHandler(async (req, res) => {
+
+    const { examID } = req.params;
+
+    if (!examID) {
+        throwError({
+            statusCode: HttpStatus.BAD_REQUEST,
+            message: 'examID ID is required'
+        })
+    }
+
+    const reports = await ExamReport.find({ exam: examID }).populate("exam student");
+
+    sendSuccessResponse({
+        res,
+        statusCode: HttpStatus.OK,
+        message: "Exam reports retrieved successfully",
+        data: reports
+    });
+});
+
 export const getReportsByUserID = asyncErrorHandler(async (req, res) => {
 
     const { userID } = req.params;

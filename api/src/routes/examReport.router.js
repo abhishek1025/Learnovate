@@ -20,6 +20,14 @@ examRouter
     .delete()
 
 examRouter
+    .route("/exam/:examID")
+    .get(examReportController.getReportsByExamID)
+    .post()
+    .patch()
+    .delete()
+
+
+examRouter
     .route("/:examID/:userID")
     .get(examReportController.getReportsByExamIDAndUserID)
     .post()

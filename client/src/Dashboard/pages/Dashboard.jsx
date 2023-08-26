@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react'
 import DashboardStatsGrid from '../components/DashboardStatsGrid'
 
 import Chart from "react-apexcharts";
+import { calculateGrade } from '../../utils/determineStudentGrade';
 
 export default function Dashboard() {
 	const [dashboardData, setDashboardData] = useState({
@@ -13,20 +14,6 @@ export default function Dashboard() {
 
 	const { users, exams, feedbacks, examReports } = dashboardData;
 
-	const calculateGrade = (marks) => {
-		if (marks >= 90) {
-			return 'A+';
-		} else if (marks >= 80) {
-			return 'A';
-		} else if (marks >= 70) {
-			return 'B';
-		} else if (marks >= 60) {
-			return 'C';
-		} else if (marks >= 50) {
-			return 'D';
-		}
-		return 'F';
-	}
 
 	const userCountByRole = useMemo(() => {
 		return users.reduce((prevValue, { role }) => {
@@ -45,16 +32,14 @@ export default function Dashboard() {
 
 			const grade = calculateGrade(examReport.percentageScored)
 
-			if (prevValue.grade) {
-				prevValue.grade++;
-				return prevValue;
-			}
+			prevValue[grade]++;
 
-			return { ...prevValue, [grade]: 1 }
+			return prevValue;
 
-		}, {})
+		}, { "A+": 0, "A": 0, "B": 0, "C": 0, "D": 0, "F": 0 })
 
 	}, [examReports])
+
 
 
 	const examReportsPassFailCount = useMemo(() => {
@@ -147,14 +132,15 @@ export default function Dashboard() {
 		chart: {
 			type: 'pie',
 		},
-		labels: ["A", "B", "C", "D", "E", "F"],
+		labels: Object.keys(studentCountByGrade),
 		colors: [
 			'#FF5733',
 			'#6A1B9A',
 			'#1E88E5',
 			'#4CAF50',
 			'#FFC107',
-			'#E53935'
+			'#E53935',
+			'#E67831'
 		],
 		responsive: [{
 			breakpoint: 480,
@@ -258,7 +244,7 @@ export default function Dashboard() {
 			</div>
 
 			<div className='my-10 py-8 bg-white'>
-				
+
 				<h2 className='text-center mb-4'>Pass and Fail Count per exam</h2>
 
 				<Chart

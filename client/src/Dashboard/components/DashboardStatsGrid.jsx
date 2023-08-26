@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoBagHandle, IoPieChart, IoPeople, IoCart } from 'react-icons/io5';
 
-export default function DashboardStatsGrid() {
+export default function DashboardStatsGrid({usersLists, examData, feedbacks}) {
+
+
     return (
         <div className="flex gap-4">
             <BoxWrapper>
@@ -14,7 +16,9 @@ export default function DashboardStatsGrid() {
                     </span>
                     <div className="flex items-center">
                         <strong className="text-xl text-gray-700 font-semibold">
-                            4232
+                            {
+                                usersLists.filter(user => user.role === "student").length
+                            }
                         </strong>
                     </div>
                 </div>
@@ -29,7 +33,9 @@ export default function DashboardStatsGrid() {
                     </span>
                     <div className="flex items-center">
                         <strong className="text-xl text-gray-700 font-semibold">
-                            23
+                            {
+                                usersLists.filter(user => user.role === "teacher").length
+                            }
                         </strong>
                     </div>
                 </div>
@@ -40,11 +46,11 @@ export default function DashboardStatsGrid() {
                 </div>
                 <div className="pl-4">
                     <span className="text-sm text-gray-500 font-light">
-                        Total Courses
+                        Total Exams
                     </span>
                     <div className="flex items-center">
                         <strong className="text-xl text-gray-700 font-semibold">
-                            313
+                            {examData.length}
                         </strong>
                     </div>
                 </div>
@@ -55,11 +61,11 @@ export default function DashboardStatsGrid() {
                 </div>
                 <div className="pl-4">
                     <span className="text-sm text-gray-500 font-light">
-                        Support Tickets
+                        Total Feedbacks
                     </span>
                     <div className="flex items-center">
                         <strong className="text-xl text-gray-700 font-semibold">
-                            32
+                            {feedbacks.length}
                         </strong>
                     </div>
                 </div>

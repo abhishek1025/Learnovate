@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../comps/Navbar'
 import Footer from '../comps/Footer'
 import ExamDashboardCard from '../comps/ExamDashboardCard'
+import { getUserDataFromLocalStorage } from '../utils/getUserDataFromLocalStorage'
 
 const ExamDashboard = () => {
 
@@ -23,7 +24,7 @@ const ExamDashboard = () => {
             <Navbar />
 
             <div className=' m-auto text-center text-4xl my-5'>
-                Welcome User!
+                Welcome {getUserDataFromLocalStorage()?.user.name}!!
             </div>
 
             <div className='flex justify-center gap-x-10 flex-wrap w-[90%] m-auto'>

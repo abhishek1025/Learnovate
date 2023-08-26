@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { formatDateTime } from '../../utils/formatDateAndTime'
+import { ToastContainer, toast } from 'react-toastify'
 
 const ViewExam = () => {
 
@@ -12,12 +13,30 @@ const ViewExam = () => {
         setExamData(responseData.data)
     }
 
+    const deleteExam = (examID) => async () => {
+        const res = await fetch(`/exams/${examID}`, {
+            method: "DELETE",
+        })
+
+        const resMsg = await res.json();
+
+
+        if (res.ok) {
+            setExamData(prevExamData => prevExamData.filter(exam => exam._id !== examID))
+            toast.success(resMsg.message);
+            return;
+        }
+        toast.error(resMsg.message);
+    }
+
     useEffect(() => {
         fetchAllExam();
     }, [])
 
     return (
         <div>
+            
+            <ToastContainer />
 
             <div className=" px-4 py-2 mb-3 bg-gray-800">
                 <h1 className="text-lg font-semibold text-white">
@@ -53,6 +72,7 @@ const ViewExam = () => {
                             </Link>
                             <button
                                 className="bg-red-600 w-full text-white px-4 py-2 rounded hover:bg-red-700 mb-2"
+                                onClick={deleteExam(data._id)}
                             >
                                 Delete
                             </button>

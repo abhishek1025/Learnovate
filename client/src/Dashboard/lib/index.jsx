@@ -1,10 +1,13 @@
 import {
-    HiOutlineViewGrid,
     HiOutlineUserAdd,
-    HiOutlineUserGroup,
-    HiOutlineClipboardList,
-    HiOutlineCog,
+    HiOutlineViewGrid
 } from 'react-icons/hi';
+
+import { IoCloudUploadOutline, IoDocumentTextOutline, IoPeopleOutline } from 'react-icons/io5';
+import { PiExam } from 'react-icons/pi';
+
+import { MdCastForEducation, MdOutlineFeedback } from "react-icons/md";
+
 
 export const DASHBOARD_SIDEBAR_LINKS = [
     {
@@ -23,37 +26,37 @@ export const DASHBOARD_SIDEBAR_LINKS = [
         key: 'view-users',
         label: 'View Users',
         path: '/admin/view-users',
-        icon: <HiOutlineUserAdd />,
-    },
-    {
-        key: 'feedback',
-        label: 'Feedback',
-        path: '/admin/feedback',
-        icon: <HiOutlineClipboardList />,
-    },
-    {
-        key: 'Add Exam Materials',
-        label: 'Add Exam Materials',
-        path: '/admin/add-exam-materials',
-        icon: <HiOutlineClipboardList />,
+        icon: <IoPeopleOutline />,
     },
     {
         key: 'Create Exam',
         label: 'Create Exam',
         path: '/admin/create-exam',
-        icon: <HiOutlineClipboardList />,
+        icon: <IoDocumentTextOutline />,
     },
     {
         key: 'View Exam',
         label: 'View Exam',
         path: '/admin/view-exam',
-        icon: <HiOutlineClipboardList />,
+        icon: <MdCastForEducation />,
     },
     {
-        key: 'Update Exam',
-        label: 'Update Exam',
-        path: '/admin/update-exam/:examID',
-        icon: <HiOutlineClipboardList />,
+        key: 'Add Exam Materials',
+        label: 'Add Exam Materials',
+        path: '/admin/add-exam-materials',
+        icon: <IoCloudUploadOutline />,
+    },
+    {
+        key: 'Results',
+        label: 'Results',
+        path: '/admin/results',
+        icon: <PiExam />,
+    },
+    {
+        key: 'feedback',
+        label: 'Feedback',
+        path: '/admin/feedback',
+        icon: <MdOutlineFeedback />,
     },
 
 ];

@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { formatDateTime } from '../../utils/formatDateAndTime';
 import QuestionsList from '../components/QuestionList';
 import CreateQuestion from '../components/CreateQuestion';
+import UpdateExamForm from '../components/UpdateExamForm';
 
 const ExamDetails = () => {
 
@@ -18,6 +19,7 @@ const ExamDetails = () => {
     const [questionToUpdate, setQuestionToUpdate] = useState(null);
     const [operationType, setOperationType] = useState("Add")
 
+    const [examDetailsToUpdate, setExamDetailsToUpdate] = useState({});
 
     const fetchExamDetails = async () => {
         const response = await fetch(`/exams/${examID}`)
@@ -40,24 +42,49 @@ const ExamDetails = () => {
         setDisplayQuestionCreationForm(true)
     }
 
+    const updateExamDetailsLocally = (updatedExamDetails) => {
+        setExamDetails((prevExamDetails) => {
+            return { ...prevExamDetails, ...updatedExamDetails }
+        })
+        setExamDetailsToUpdate({})
+    }
+
     useEffect(() => {
         fetchExamDetails()
     }, [displayQuestionCreationForm])
 
 
     return (
+
         <div>
             <ToastContainer />
+
+            {
+                Object.keys(examDetailsToUpdate).length !== 0 && (
+                    <UpdateExamForm
+                        examDetails={examDetailsToUpdate}
+                        updateExamDetailsLocally={updateExamDetailsLocally}
+                    />
+                )
+            }
 
             <div className="container mx-auto p-6 bg-gray-100">
 
                 <div className="bg-white rounded-lg shadow-md p-6 mb-6">
 
-                    <h2 className="text-2xl font-semibold mb-3">{examDetails.title}</h2>
-                    <p className="text-gray-600 mb-2">{examDetails.subject}</p>
+                    <h2 className="text-2xl font-semibold mb-4">{examDetails.title?.toUpperCase()}</h2>
+
+                    <p className="text-gray-600">Subject: {examDetails.subject?.toUpperCase()}</p>
                     <p className="text-gray-600">Date: {examDetails.date && formatDateTime(examDetails.date)[0]}</p>
                     <p className="text-gray-600">Time: {examDetails.date && formatDateTime(examDetails.date)[1]}</p>
                     <p className="text-gray-600">Duration: {examDetails.duration} minutes</p>
+
+                    <button
+                        className="px-8 py-2 mt-5 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition duration-300 mr-8"
+                        onClick={() => setExamDetailsToUpdate(examDetails)}
+                    >
+                        Update Exam Details
+                    </button>
 
                     <button
                         className="px-8 py-2 mt-5 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition duration-300"
@@ -65,6 +92,8 @@ const ExamDetails = () => {
                     >
                         Add Question
                     </button>
+
+
                 </div>
 
 

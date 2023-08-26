@@ -16,27 +16,46 @@ const Navbar = () => {
         Online Exam
       </Link>
       <ul className="hidden md:flex">
+
         <Link to="/" className="p-4">
           Home
         </Link>
+
+        {
+          getUserDataFromLocalStorage()?.user && (
+            <Link to="/profile" className="p-4">
+              Profile
+            </Link>
+          )
+        }
+
+        {
+          getUserDataFromLocalStorage() && (["admin", "teacher"].includes(getUserDataFromLocalStorage()?.user?.role) ? (
+            <Link to="/admin" className="p-4">
+              Dashboard
+            </Link>
+          ) : (
+            <>
+              <Link to="/exams" className="p-4">
+                Exams
+              </Link>
+
+              <Link to="/results" className="p-4">
+                Results
+              </Link>
+
+              <Link to="/feedback" className="p-4">
+                Feedback
+              </Link>
+            </>
+
+          ))
+        }
+
         <Link to="/contact" className="p-4">
           Contact
         </Link>
-        <Link to="/admin" className="p-4">
-          Dashboard
-        </Link>
 
-        <Link to="/exams" className="p-4">
-          Exams
-        </Link>
-
-        <Link to="/results" className="p-4">
-          Results
-        </Link>
-
-        <Link to="/feedback" className="p-4">
-          Feedback
-        </Link>
         {/* 
         <Link
           to="/signup"

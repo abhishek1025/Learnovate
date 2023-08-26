@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getUserDataFromLocalStorage } from '../../utils/getUserDataFromLocalStorage';
 
 const CreateExam = () => {
 
@@ -21,11 +22,12 @@ const CreateExam = () => {
     // now combining the date and time into single DateTime string
     const examDateTime = new Date(`${examDate} ${examTime}`);
 
+
     const examData = {
       title,
       duration: parseInt(duration),
       subject,
-      teacher: '64e4d815e4e0b7d0b24d235b',
+      teacher: getUserDataFromLocalStorage()?.user._id,
       date: examDateTime // converting to timestamp
     };
 

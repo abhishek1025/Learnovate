@@ -2,17 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { BsCalendarDate } from 'react-icons/bs';
 import { BiTimeFive } from 'react-icons/bi';
 import { Link } from 'react-router-dom';
-import Navbar from '../../comps/Navbar';
 import { formatDateTime } from '../../utils/formatDateAndTime';
 
 const ExamResultsDashboard = () => {
 
-    const [examsReport, setExamsReport] = useState([]);
+    const [exams, setExams] = useState([]);
 
     const fetchExams = async () => {
-        const res = await fetch(`/exam-reports`);
+        const res = await fetch(`/exams`);
         const resData = await res.json();
-        setExamsReport(resData.data)
+        setExams(resData.data)
     }
 
     useEffect(() => {
@@ -26,20 +25,20 @@ const ExamResultsDashboard = () => {
                 <h1 className="text-lg font-semibold text-white">All Results</h1>
             </div>
 
-            <div className='flex gap-x-10 flex-wrap'>
+            <div className='flex gap-x-6 flex-wrap'>
 
                 {
-                    examsReport.map((examReport) => {
+                    exams
+                        .filter(({ examStatus }) => examStatus === "end")
+                        .map((exam) => {
+                            return (
+                                <ExamCard exam={exam} key={exam._id} />
+                            )
 
-                        return (
-                            <ExamCard exam={examReport.exam} key={examReport._id} />
-                        )
-
-                    })
+                        })
                 }
 
             </div>
-
 
         </>
     )
@@ -50,7 +49,7 @@ const ExamCard = ({ exam }) => {
     const { _id, title, teacher, subject, date, duration } = exam;
 
     return (
-        <div className='border w-[32%] my-5 px-5 bg-white'>
+        <div className='border w-[31%] my-5 px-5 bg-white'>
 
             <div className='text-sm text-gray-500 flex items-center justify-between py-4'>
 

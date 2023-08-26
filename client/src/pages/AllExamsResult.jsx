@@ -8,12 +8,12 @@ import { Link } from 'react-router-dom';
 
 const AllExamsResult = () => {
 
-    const [examsReport, setExamsReport] = useState([]);
+    const [exams, setExams] = useState([]);
 
     const fetchExams = async () => {
-        const res = await fetch(`/exam-reports`);
+        const res = await fetch(`/exams`);
         const resData = await res.json();
-        setExamsReport(resData.data)
+        setExams(resData.data)
     }
 
     useEffect(() => {
@@ -33,10 +33,10 @@ const AllExamsResult = () => {
             <div className='flex justify-center gap-x-10 flex-wrap w-[90%] m-auto'>
 
                 {
-                    examsReport.map((examReport) => {
+                    exams.map((exam) => {
 
                         return (
-                            <ExamCard exam={examReport.exam} key={examReport._id} />
+                            <ExamCard exam={exam} key={exam._id} />
                         )
 
                     })

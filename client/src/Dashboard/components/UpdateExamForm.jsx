@@ -6,7 +6,7 @@ const UpdateExamForm = ({ examDetails, updateExamDetailsLocally }) => {
 
     const { examID } = useParams();
 
-    const [formData, setFormData] = useState(examDetails);
+    const [formData, setFormData] = useState({ ...examDetails });
 
     const dateInTimeStamp = new Date(formData.date)
 
@@ -62,9 +62,10 @@ const UpdateExamForm = ({ examDetails, updateExamDetailsLocally }) => {
                         <input
                             type="text"
                             id="title"
+                            name="title"
                             className="border rounded p-2 w-full"
-                            value={formData.title}
                             onChange={handleChange}
+                            value={formData.title}
                         />
                     </div>
                     <div>
@@ -74,6 +75,7 @@ const UpdateExamForm = ({ examDetails, updateExamDetailsLocally }) => {
                         <input
                             type="text"
                             id="subject"
+                            name="subject"
                             className="border rounded p-2 w-full"
                             onChange={handleChange}
                             value={formData.subject}
@@ -110,6 +112,7 @@ const UpdateExamForm = ({ examDetails, updateExamDetailsLocally }) => {
                         <input
                             type="text"
                             id="duration"
+                            name="duration"
                             className="border rounded p-2 w-full"
                             onChange={handleChange}
                             value={formData.duration}

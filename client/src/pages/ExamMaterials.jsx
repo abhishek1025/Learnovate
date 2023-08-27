@@ -22,7 +22,6 @@ const ExamMaterials = () => {
             setExamMaterials(resData.data);
         }
 
-        // console.log(resData.data);
     }
 
 

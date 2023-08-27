@@ -17,7 +17,7 @@ const UpdateUserForm = ({ showUpdateForm, user, setUsersLists }) => {
 
     const updateUser = async (e) => {
         e.preventDefault();
-        
+
         const response = await fetch(`/users/${user.email}`, {
             method: 'PATCH',
             headers: {
@@ -206,9 +206,17 @@ const ViewUsers = () => {
                                                 <button className="px-2 py-1 bg-blue-600 text-white rounded-md mr-2" onClick={showUpdateForm}>
                                                     Update
                                                 </button>
-                                                <button className="px-2 py-1 bg-red-600 text-white rounded-md" onClick={deleteUser(user.email)}>
-                                                    Delete
-                                                </button>
+                                                {
+                                                    user?.role === 'admin' ? (
+                                                        <button className="px-2 py-1 bg-red-400 text-white rounded-md" disabled>
+                                                        Delete
+                                                        </button>
+                                                    ) : (
+                                                            <button className="px-2 py-1 bg-red-600 text-white rounded-md" onClick={deleteUser(user.email)}>
+                                                                Delete
+                                                            </button>
+                                                    )
+                                                }
                                             </td>
                                             {
                                                 updateForm && (

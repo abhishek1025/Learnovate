@@ -17,7 +17,7 @@ const UpdateUserForm = ({ showUpdateForm, user, setUsersLists }) => {
 
     const updateUser = async (e) => {
         e.preventDefault();
-        
+
         const response = await fetch(`/users/${user.email}`, {
             method: 'PATCH',
             headers: {
@@ -113,11 +113,11 @@ const UpdateUserForm = ({ showUpdateForm, user, setUsersLists }) => {
 const ViewUsers = () => {
     // creating state to store the data for view table
     const [usersLists, setUsersLists] = useState([])
-    const [updateForm, setUpdateForm] = useState(false)
+    const [openUpdateFormForUser, setOpenUpdateFormForUser] = useState(null);
 
-    const showUpdateForm = () => {
-        setUpdateForm(!updateForm)
-    }
+    const showUpdateForm = (email) => {
+        setOpenUpdateFormForUser(email);
+    };
 
     const fetchUserData = async () => {
         // Fetch the updated list of users after creating a new user
@@ -203,7 +203,7 @@ const ViewUsers = () => {
                                                 {user?.address}
                                             </td>
                                             <td className="p-3 text-sm font-medium text-gray-800 border border-gray-300">
-                                                <button className="px-2 py-1 bg-blue-600 text-white rounded-md mr-2" onClick={showUpdateForm}>
+                                                <button className="px-2 py-1 bg-blue-600 text-white rounded-md mr-2" onClick={() => showUpdateForm(user.email)}>
                                                     Update
                                                 </button>
                                                 <button className="px-2 py-1 bg-red-600 text-white rounded-md" onClick={deleteUser(user.email)}>
@@ -211,7 +211,7 @@ const ViewUsers = () => {
                                                 </button>
                                             </td>
                                             {
-                                                updateForm && (
+                                                openUpdateFormForUser === user.email && (
 
                                                     <UpdateUserForm
                                                         showUpdateForm={showUpdateForm}

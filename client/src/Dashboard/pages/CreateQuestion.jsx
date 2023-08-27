@@ -40,7 +40,6 @@ const CreateQuestion = ({ examDetails }) => {
             toast(responseData.message);
             setExamData([responseData.data]);
             setQuestionDetails(defaultQuestionDetails);
-            console.log(responseData.data);
         } else {
             toast.error('Failed to create question');
         }

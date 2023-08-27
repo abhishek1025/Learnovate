@@ -46,7 +46,6 @@ export default function Dashboard() {
 		return examReports.reduce((prevValues, { exam, percentageScored }) => {
 
 			const prevValue = prevValues.find(({ examTitle }) => {
-				console.log(examTitle === exam.title);
 				return examTitle === exam.title
 			})
 

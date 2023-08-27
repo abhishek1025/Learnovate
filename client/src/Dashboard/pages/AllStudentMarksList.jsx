@@ -21,6 +21,8 @@ const AllStudentMarksList = () => {
         fetchExamReports();
     }, [])
 
+    console.log("exam reports", examReports)
+
     return (
         <div>
 
@@ -67,9 +69,21 @@ const AllStudentMarksList = () => {
                                 return (
                                     <tr key={_id}>
 
-                                        <td className={columnStyle}>{student.name}</td>
-                                        <td className={columnStyle}>{student.email}</td>
-                                        <td className={columnStyle}>{student.phoneNumber}</td>
+                                        <td className={columnStyle}>
+                                            {
+                                                student ? student.name : '-'
+                                            }
+                                        </td>
+                                        <td className={columnStyle}>
+                                            {
+                                                student ? student.email : '-'
+                                            }
+                                        </td>
+                                        <td className={columnStyle}>
+                                            {
+                                                student ? student.phoneNumber : ' - '
+                                            }
+                                        </td>
                                         <td className={columnStyle}>{percentageScored}%</td>
                                         <td className={columnStyle}>{calculateGrade(percentageScored)}</td>
                                     </tr>

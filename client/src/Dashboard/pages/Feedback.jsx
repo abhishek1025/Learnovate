@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Feedback = () => {
     const [feedbacks, setFeedbacks] = useState([]);
-    
+
 
     const handleDelete = async (_id) => {
         const response = await fetch(`/feedbacks/${_id}`, {
@@ -52,8 +52,18 @@ const Feedback = () => {
                     <tbody>
                         {feedbacks.map((feedback) => (
                             <tr key={feedback._id}>
-                                <td className="py-2 px-4">{feedback.userID.name}</td>
-                                <td className="py-2 px-4">{feedback.userID.email}</td>
+
+                                <td className="py-2 px-4">
+                                    {
+                                        feedback.userID ? feedback.userID.name : '-'
+                                    }
+
+                                </td>
+                                <td className="py-2 px-4">
+                                    {
+                                        feedback.userID ? feedback.userID.email : '-'
+                                    }
+                                </td>
                                 <td className="py-2 px-4">{feedback.content}</td>
                                 <td className="py-2 px-4">
                                     <button

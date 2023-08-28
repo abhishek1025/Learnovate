@@ -18,7 +18,7 @@ export const createExam = asyncErrorHandler(async (req, res) => {
     // Validate if the teacher exists
     const teacherUser = await User.findById(teacher);
 
-    if (!teacherUser || teacherUser.role !== 'teacher') {
+    if (!teacherUser || teacherUser.role !== "student") {
         throwError({ statusCode: HttpStatus.NOT_FOUND, message: 'Teacher not found' });
     }
 

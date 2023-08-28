@@ -21,6 +21,7 @@ export const DASHBOARD_SIDEBAR_LINKS = [
         label: 'Create Users',
         path: '/admin/create-users',
         icon: <HiOutlineUserAdd />,
+        role: "admin",
     },
     {
         key: 'view-users',
@@ -57,6 +58,7 @@ export const DASHBOARD_SIDEBAR_LINKS = [
         label: 'Feedback',
         path: '/admin/feedback',
         icon: <MdOutlineFeedback />,
+        role: "admin",
     },
 
 ];

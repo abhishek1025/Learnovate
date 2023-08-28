@@ -20,28 +20,15 @@ export default function Sidebar() {
                     Online Exam
                 </Link>
             </div>
-            <div className="py-8 flex flex-1 flex-col  gap-0.5">
-                {DASHBOARD_SIDEBAR_LINKS.map((link) => {
-                    return <SidebarLink key={link.key} link={link} />
-                })}
+            <div className="py-8 flex flex-1 flex-col gap-y-8">
+                {DASHBOARD_SIDEBAR_LINKS
+                    .filter((link) => link?.role ? link?.role === getUserDataFromLocalStorage()?.user?.role : link)
+                    .map((link) => {
+                        return <SidebarLink key={link.key} link={link} />
+                    })}
             </div>
-            <div className="flex flex-col gap-0.5 pt-2 border-t">
-                <button
-                    className={classNames(
-                        linkClass,
-                        'cursor-pointer text-white',
-                    )}
-
-                    onClick={() => {
-                        localStorage.removeItem("userInfo");
-                        navigate("/login")
-                    }}
-                >
-                    <span className="text-xl">
-                        <HiOutlineLogout />
-                    </span>
-                    Logout
-                </button>
+            <div className="flex flex-col gap-0.5 pt-2 text-white py-5">
+                <p>&copy; {new Date().getFullYear()} All rights reserved.</p>
             </div>
         </div>
     );

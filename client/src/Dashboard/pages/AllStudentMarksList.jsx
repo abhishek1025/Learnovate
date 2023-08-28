@@ -64,32 +64,37 @@ const AllStudentMarksList = () => {
                     </thead>
                     <tbody>
                         {
-                            examReports.map(({ _id, student, percentageScored }) => {
-                                const columnStyle = "p-3 text-sm font-medium text-gray-800 border border-gray-300"
-                                return (
-                                    <tr key={_id}>
+                            examReports
+                                .filter(({ student }) => student != null)
+                                .map(({ _id, student, percentageScored }) => {
+                                    const columnStyle = "p-3 text-sm font-medium text-gray-800 border border-gray-300"
+                                    return (
+                                        <tr key={_id}>
 
-                                        <td className={columnStyle}>
-                                            {
-                                                student ? student.name : '-'
-                                            }
-                                        </td>
-                                        <td className={columnStyle}>
-                                            {
-                                                student ? student.email : '-'
-                                            }
-                                        </td>
-                                        <td className={columnStyle}>
-                                            {
-                                                student ? student.phoneNumber : ' - '
-                                            }
-                                        </td>
-                                        <td className={columnStyle}>{percentageScored}%</td>
-                                        <td className={columnStyle}>{calculateGrade(percentageScored)}</td>
-                                    </tr>
+                                            <td className={columnStyle}>
+                                                {
+                                                    student ? student.name : '-'
+                                                }
+                                            </td>
+                                            <td className={columnStyle}>
+                                                {
+                                                    student ? student.email : '-'
+                                                }
+                                            </td>
+                                            <td className={columnStyle}>
+                                                {
+                                                    student ? student.phoneNumber : ' - '
+                                                }
+                                            </td>
+                                            <td className={columnStyle}>{percentageScored}%</td>
+                                            <td className={columnStyle}>{calculateGrade(percentageScored)}</td>
+                                        </tr>
 
-                                )
-                            })}
+                                    )
+                                })
+                                .length === 0 && <h2 className='text-2xl  mt-8'>No Records available</h2>
+                        }
+
                     </tbody>
                 </table>
             </div>

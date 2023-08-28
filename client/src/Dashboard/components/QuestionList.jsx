@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 
-const QuestionsList = ({ questions, setQuestions, setOperationTypeForForm }) => {
+const QuestionsList = ({ questions, setQuestions, setOperationTypeForForm, isThisUserWhoCreateExam }) => {
 
     const { examID } = useParams();
 
@@ -55,19 +55,26 @@ const QuestionsList = ({ questions, setQuestions, setOperationTypeForForm }) => 
                         </ul>
                         <p className="font-semibold">Correct Answer: {question.correctAns}</p>
                         <div className="flex gap-x-4 pt-2">
-                            <button
-                                className="w-24 h-8 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition duration-300"
-                                onClick={() => {
-                                    setOperationTypeForForm(question)
-                                }}
-                            >
-                                Update
-                            </button>
+                            {
+                                isThisUserWhoCreateExam && (
+                                    <>
+                                        <button
+                                            className="w-24 h-8 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition duration-300"
+                                            onClick={() => {
+                                                setOperationTypeForForm(question)
+                                            }}
+                                        >
+                                            Update
+                                        </button>
 
-                            <button
-                                className="w-24 h-8 rounded-md bg-red-500 text-white hover:bg-red-600 transition duration-300"
-                                onClick={() => handleDeleteQuestion(question._id)}
-                            >Delete</button>
+                                        <button
+                                            className="w-24 h-8 rounded-md bg-red-500 text-white hover:bg-red-600 transition duration-300"
+                                            onClick={() => handleDeleteQuestion(question._id)}
+                                        >Delete</button>
+                                    </>
+                                )
+                            }
+
                         </div>
 
                     </div>

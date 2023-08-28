@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { formatDateTime } from '../../utils/formatDateAndTime';
 import QuestionsList from '../components/QuestionList';
 import CreateQuestion from '../components/CreateQuestion';
 import UpdateExamForm from '../components/UpdateExamForm';
+import { getUserDataFromLocalStorage } from '../../utils/getUserDataFromLocalStorage';
 
 const ExamDetails = () => {
+
+    const navigate = useNavigate();
 
     const { examID } = useParams();
 
@@ -49,6 +52,10 @@ const ExamDetails = () => {
         setExamDetailsToUpdate({})
     }
 
+
+    const isThisUserWhoCreateExam = examDetails?.teacher?.email === getUserDataFromLocalStorage()?.user?.email;
+
+
     useEffect(() => {
         fetchExamDetails()
     }, [displayQuestionCreationForm])
@@ -58,6 +65,13 @@ const ExamDetails = () => {
 
         <div>
             <ToastContainer />
+
+            <button
+                onClick={() => navigate("../")}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue active:bg-blue-800 ml-6"
+            >
+                Go Back
+            </button>
 
             {
                 Object.keys(examDetailsToUpdate).length !== 0 && (
@@ -79,20 +93,25 @@ const ExamDetails = () => {
                     <p className="text-gray-600">Time: {examDetails.date && formatDateTime(examDetails.date)[1]}</p>
                     <p className="text-gray-600">Duration: {examDetails.duration} minutes</p>
 
-                    <button
-                        className="px-8 py-2 mt-5 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition duration-300 mr-8"
-                        onClick={() => setExamDetailsToUpdate(examDetails)}
-                    >
-                        Update Exam Details
-                    </button>
+                    {
+                        examDetails?.teacher?.email === getUserDataFromLocalStorage()?.user?.email && (
+                            <>
+                                <button
+                                    className="px-8 py-2 mt-5 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition duration-300 mr-8"
+                                    onClick={() => setExamDetailsToUpdate(examDetails)}
+                                >
+                                    Update Exam Details
+                                </button>
 
-                    <button
-                        className="px-8 py-2 mt-5 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition duration-300"
-                        onClick={() => setDisplayQuestionCreationForm(true)}
-                    >
-                        Add Question
-                    </button>
-
+                                <button
+                                    className="px-8 py-2 mt-5 rounded-md bg-blue-500 text-white hover:bg-blue-600 transition duration-300"
+                                    onClick={() => setDisplayQuestionCreationForm(true)}
+                                >
+                                    Add Question
+                                </button>
+                            </>
+                        )
+                    }
 
                 </div>
 
@@ -122,6 +141,7 @@ const ExamDetails = () => {
                     questions={questions}
                     setQuestions={setQuestions}
                     setOperationTypeForForm={setOperationTypeForForm}
+                    isThisUserWhoCreateExam={isThisUserWhoCreateExam}
                 />
             </div>
         </div>

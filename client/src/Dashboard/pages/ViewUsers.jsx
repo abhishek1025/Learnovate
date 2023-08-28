@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { getUserDataFromLocalStorage } from '../../utils/getUserDataFromLocalStorage';
 
 const UpdateUserForm = ({ showUpdateForm, user, setUsersLists }) => {
 
@@ -146,6 +147,8 @@ const ViewUsers = () => {
         }
     }
 
+    const isAdmin = getUserDataFromLocalStorage()?.user?.role === 'admin';
+
 
     return (
         <div className='relative'>
@@ -175,9 +178,15 @@ const ViewUsers = () => {
                             <th className="p-3 font-bold text-left text-gray-800 border border-gray-300">
                                 Address
                             </th>
-                            <th className="p-3 font-bold text-left text-gray-800 border border-gray-300">
 
-                            </th>
+                            {
+                                isAdmin && (
+                                    <th className="p-3 font-bold text-left text-gray-800 border border-gray-300">
+
+                                    </th>
+                                )
+
+                            }
                         </tr>
                     </thead>
                     <tbody>
@@ -202,22 +211,29 @@ const ViewUsers = () => {
                                             <td className="p-3 text-sm font-medium text-gray-800 border border-gray-300">
                                                 {user?.address}
                                             </td>
-                                            <td className="p-3 text-sm font-medium text-gray-800 border border-gray-300">
-                                                <button className="px-2 py-1 bg-blue-600 text-white rounded-md mr-2" onClick={() => showUpdateForm(user.email)}>
-                                                    Update
-                                                </button>
-                                                {
-                                                    user?.role === 'admin' ? (
-                                                        <button className="px-2 py-1 bg-red-400 text-white rounded-md" disabled>
-                                                        Delete
+
+                                            {
+                                                isAdmin && (
+                                                    <td className="p-3 text-sm font-medium text-gray-800 border border-gray-300">
+                                                        <button className="px-2 py-1 bg-blue-600 text-white rounded-md mr-2" onClick={() => showUpdateForm(user.email)}>
+                                                            Update
                                                         </button>
-                                                    ) : (
-                                                            <button className="px-2 py-1 bg-red-600 text-white rounded-md" onClick={deleteUser(user.email)}>
-                                                                Delete
-                                                            </button>
-                                                    )
-                                                }
-                                            </td>
+                                                        {
+                                                            user?.role === 'admin' ? (
+                                                                <button className="px-2 py-1 bg-red-400 text-white rounded-md" disabled>
+                                                                    Delete
+                                                                </button>
+                                                            ) : (
+                                                                <button className="px-2 py-1 bg-red-600 text-white rounded-md" onClick={deleteUser(user.email)}>
+                                                                    Delete
+                                                                </button>
+                                                            )
+                                                        }
+                                                    </td>
+                                                )
+                                            }
+
+
                                             {
                                                 openUpdateFormForUser === user.email && (
 

@@ -4,7 +4,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
-const CreateQuestion = ({ questionToUpdate, operationType, setDisplayQuestionCreationForm, resetCreateQuestionCompForm }) => {
+const CreateQuestion = ({ questionToUpdate, operationType, setDisplayQuestionCreationForm, resetCreateQuestionCompForm, isThisUserWhoCreateExam }) => {
+    console.log(isThisUserWhoCreateExam);
 
     const { examID } = useParams();
 
@@ -124,20 +125,28 @@ const CreateQuestion = ({ questionToUpdate, operationType, setDisplayQuestionCre
                         </div>
                     ))}
 
-                    <button
-                        type="submit"
-                        className="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-md mt-4"
-                    >
-                        {operationType} Question
-                    </button>
+                    {
+                        isThisUserWhoCreateExam && (
+                            <>
+                                <button
+                                    type="submit"
+                                    className="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded-md mt-4"
+                                >
+                                    {operationType} Question
+                                </button>
 
-                    <button
-                        type="button"
-                        className="bg-red-500 hover:bg-red-600 text-white px-10 ml-10 py-2 rounded-md mt-4"
-                        onClick={() => setDisplayQuestionCreationForm(false)}
-                    >
-                        Exit
-                    </button>
+                                <button
+                                    type="button"
+                                    className="bg-red-500 hover:bg-red-600 text-white px-10 ml-10 py-2 rounded-md mt-4"
+                                    onClick={() => setDisplayQuestionCreationForm(false)}
+                                >
+                                    Exit
+                                </button>
+                            </>
+                        )
+                    }
+
+
 
                 </form>
 

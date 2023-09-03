@@ -1,54 +1,127 @@
-import React from 'react';
-import classNames from 'classnames';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { HiOutlineLogout } from 'react-icons/hi';
-import { DASHBOARD_SIDEBAR_LINKS } from '../../lib/index.jsx';
-// import { logout } from '../../../../features/auth/authSlice.js';
-import { getUserDataFromLocalStorage } from '../../../utils/getUserDataFromLocalStorage';
+import React from "react";
+import {
+    Card,
+    Typography,
+    List,
+    ListItem,
+    ListItemPrefix,
+    ListItemSuffix,
+    Chip,
+    Accordion,
+    AccordionHeader,
+    AccordionBody,
+} from "@material-tailwind/react";
+import {
+    PresentationChartBarIcon,
+    ShoppingBagIcon,
+    UserCircleIcon,
+    Cog6ToothIcon,
+    InboxIcon,
+    PowerIcon,
+} from "@heroicons/react/24/solid";
+import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
+import { DASHBOARD_SIDEBAR_LINKS } from "../../lib";
 
-const linkClass =
-    'flex items-center gap-2 font-light px-3 py-2 hover:bg-[#212945] hover:no-underline active:[#55609A] rounded-sm text-base';
+export function MultiLevelSidebar() {
 
-export default function Sidebar() {
-    const navigate = useNavigate();
     return (
-        <div className="bg-[#1b2138] w-60 p-3 flex flex-col">
-            <div className="text-white font-bold text text-2xl text-center mt-5">
-                <Link
-                    to="/"
-                >
-                    Online Exam
-                </Link>
-            </div>
-            <div className="py-8 flex flex-1 flex-col gap-y-8">
-                {DASHBOARD_SIDEBAR_LINKS
-                    .filter((link) => link?.role ? link?.role === getUserDataFromLocalStorage()?.user?.role : link)
-                    .map((link) => {
-                        return <SidebarLink key={link.key} link={link} />
-                    })}
-            </div>
-            <div className="flex flex-col gap-0.5 pt-2 text-white py-5">
-                <p>&copy; {new Date().getFullYear()} All rights reserved.</p>
-            </div>
-        </div>
+        <Card className="w-full max-w-[20rem] p-4 shadow-none border-r">
+            <Link to="/">
+                <div className="mb-2 p-4">
+                    <Typography variant="h5" color="blue-gray">
+                        Learnoavte
+                    </Typography>
+                </div>
+            </Link>
+            <List>
+
+                {
+                    DASHBOARD_SIDEBAR_LINKS.admin.map((sidebarLink) => {
+                        const { key, label, path, icon, subMenu } = sidebarLink;
+                        if (subMenu) {
+                            return (
+                                <SidebarAccordion
+                                    key={sidebarLink.key}
+                                    menuData={sidebarLink}
+                                />
+                            )
+                        }
+
+                        return (
+                            <Link to={path} key={key}>
+                                <ListItem>
+                                    <ListItemPrefix>
+                                        {icon}
+                                    </ListItemPrefix>
+                                    {label}
+                                </ListItem>
+                            </Link>
+                        )
+                    })
+                }
+
+                <ListItem>
+                    <ListItemPrefix>
+                        <PowerIcon className="h-5 w-5" />
+                    </ListItemPrefix>
+                    Log Out
+                </ListItem>
+            </List>
+        </Card>
     );
 }
 
-function SidebarLink({ link }) {
-    const { pathname } = useLocation();
+const SidebarAccordion = ({ menuData }) => {
 
+    const { label, icon, subMenu } = menuData;
+
+    const [open, setOpen] = React.useState(0);
+
+    const handleOpen = (value) => {
+        setOpen(open === value ? 0 : value);
+    };
+    
     return (
-        <Link
-            to={link.path}
-            className={classNames(
-                pathname === link.path
-                    ? 'bg-[#353f66] text-white'
-                    : 'text-white',
-                linkClass,
-            )}
+        <Accordion
+            open={open === 1}
+            icon={
+                <ChevronDownIcon
+                    strokeWidth={2.5}
+                    className={`mx-auto h-4 w-4 transition-transform ${open === 1 ? "rotate-180" : ""}`}
+                />
+            }
         >
-            <span className="text-xl">{link.icon}</span>
-            {link.label}
-        </Link>
-    );
+            <ListItem className="p-0" selected={open === 1}>
+                <AccordionHeader onClick={() => handleOpen(1)} className="border-b-0 p-3">
+                    <ListItemPrefix>
+                        {/* <PresentationChartBarIcon className="h-5 w-5" />
+                         */}
+                        {icon}
+                    </ListItemPrefix>
+                    <Typography color="blue-gray" className="mr-auto font-normal">
+                        {label}
+                    </Typography>
+                </AccordionHeader>
+            </ListItem>
+
+            <AccordionBody className="py-1">
+                <List className="p-0">
+                    {
+                        subMenu.map((subMenuItem) => (
+                            <Link to={subMenuItem.path}>
+                                <ListItem className="pl-3">
+                                    <ListItemPrefix>
+                                        <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
+                                    </ListItemPrefix>
+                                    {subMenuItem.label}
+                                </ListItem>
+                            </Link>
+                        ))
+                    }
+                </List>
+            </AccordionBody>
+
+        </Accordion>
+    )
 }

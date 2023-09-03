@@ -1,13 +1,11 @@
-import express from 'express';
 import cookieParser from 'cookie-parser';
-import logger from 'morgan';
-import 'dotenv/config';
-import indexRouter from './routes/index.route.js';
 import cors from 'cors';
-// import http from " http"
+import 'dotenv/config';
+import express from 'express';
+import logger from 'morgan';
 import mongoose from 'mongoose';
-import apiRoutes from './routes/index.route.js';
-import bodyParser from 'body-parser';
+import handleError from './middlewares/globalErrorHandler.js';
+import apiRoutes from './routes/index.routes.js';
 
 const app = express();
 
@@ -28,30 +26,9 @@ app.use('/', apiRoutes);
 app.use(express.static("./public"))
 
 // Handling errors in routes
-app.use((err, req, res, next) => {
-    if (err) {
+// Whenever an error is encountered, this middleware will automatically catch it and return the response accordingly
+app.use(handleError)
 
-        err.status = err.status || 'error';
-
-        if (process.env.ENV === 'development') {
-            // Development environment
-            return res.status(err.statusCode || 500).send({
-                message: err.message || 'Oops! Something went wrong 🥲...',
-                success: false,
-                stack: err.stack,
-            });
-        } else {
-            // Production environment
-            return res.status(err.statusCode || 500).send({
-                message: err.message || 'Oops! Something went wrong 🥲...',
-                success: false,
-                stack: null,
-            });
-        }
-    }
-});
-
-// const server = http.createServer(app);
 
 const port = process.env.SERVER_PORT || process.env.DEFAULT_PORT;
 const db = process.env.MONGOURI;

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getUserDataFromLocalStorage } from '../../utils/getUserDataFromLocalStorage';
+import { getUserDataFromLocalStorage } from '../../../utils/getUserDataFromLocalStorage';
 
 const UpdateUserForm = ({ showUpdateForm, user, setUsersLists }) => {
 
@@ -111,7 +111,7 @@ const UpdateUserForm = ({ showUpdateForm, user, setUsersLists }) => {
     );
 };
 
-const ViewUsers = () => {
+const ViewTeachers = () => {
     // creating state to store the data for view table
     const [usersLists, setUsersLists] = useState([])
     const [openUpdateFormForUser, setOpenUpdateFormForUser] = useState(null);
@@ -149,7 +149,6 @@ const ViewUsers = () => {
 
     const isAdmin = getUserDataFromLocalStorage()?.user?.role === 'admin';
 
-
     return (
         <div className='relative'>
 
@@ -157,7 +156,7 @@ const ViewUsers = () => {
             <div className=''>
                 <div className=" px-4 py-2 mb-3 bg-gray-800">
                     <h1 className="text-lg font-semibold text-white">
-                        View user
+                        View Students
                     </h1>
                 </div>
                 <table className="w-full border-collapse">
@@ -264,5 +263,5 @@ const ViewUsers = () => {
     )
 }
 
-export default ViewUsers
+export default ViewTeachers
 

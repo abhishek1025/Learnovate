@@ -2,12 +2,12 @@ import { Route, Routes } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 import Layout from './Dashboard/components/shared/Layout.jsx';
-import CreateUsers from './Dashboard/pages/CreateUsers';
+import CreateUsers from './Dashboard/pages/teacher/AddTeacher';
 import Dashboard from './Dashboard/pages/Dashboard.jsx';
 import ExamDetails from './Dashboard/pages/ExamDetails';
 import Feedback from './Dashboard/pages/Feedback';
 import ViewExam from './Dashboard/pages/ViewExam';
-import ViewUsers from './Dashboard/pages/ViewUsers';
+import ViewUsers from './Dashboard/pages/teacher/ViewTeachers';
 import AddExamMaterials from './pages/AddExamMaterials';
 import AllExamsResult from './pages/AllExamsResult';
 import { Contact } from './pages/Contact.jsx';
@@ -24,6 +24,8 @@ import CreateExam from './Dashboard/pages/CreateExam';
 import ExamResultsDashboard from './Dashboard/pages/ExamResultsDashboard';
 import AllStudentMarksList from './Dashboard/pages/AllStudentMarksList';
 import ProfilePage from './pages/ProfilePage';
+import AddTeacher from './Dashboard/pages/teacher/AddTeacher';
+import ViewTeachers from './Dashboard/pages/teacher/ViewTeachers';
 
 
 function App() {
@@ -37,12 +39,15 @@ function App() {
                 <Route path="/contact" element={<Contact />} />
 
                 <Route path="/profile" element={<ProfilePage />} />
-                
+
                 {/* Admin */}
                 <Route path="/admin" element={<Layout />}>
+
                     <Route index element={<Dashboard />} />
-                    <Route path="/admin/create-users" element={<CreateUsers />} />
-                    <Route path="/admin/view-users" element={<ViewUsers />} />
+
+                    <Route path="/admin/add-teacher" element={<AddTeacher />} />
+                    <Route path="/admin/view-teachers" element={<ViewTeachers />} />
+
                     <Route path="/admin/add-exam-materials" element={<AddExamMaterials />} />
                     <Route path="/admin/feedback" element={<Feedback />} />
 

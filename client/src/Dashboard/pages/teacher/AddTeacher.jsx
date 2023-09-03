@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const CreateUsers = () => {
+const AddTeacher = () => {
 
     // storing the user details in a state
     const [user, setUser] = useState({
@@ -77,7 +77,7 @@ const CreateUsers = () => {
 
             <div className=" px-4 py-2 mb-3 bg-gray-800">
                 <h1 className="text-lg font-semibold text-white">
-                    Create User
+                    Add Teacher
                 </h1>
             </div>
             <form onSubmit={(e) => handleSubmit(e)} className="bg-white p-10 shadow-md rounded-lg">
@@ -171,4 +171,4 @@ const CreateUsers = () => {
     );
 };
 
-export default CreateUsers;
+export default AddTeacher;

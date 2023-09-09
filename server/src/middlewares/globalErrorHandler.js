@@ -6,7 +6,8 @@ const handleError = (error, req, res, next) => {
 
     return res.status(error.statusCode).json({
         status: error.statusCode,
-        message: error.message
+        message: error.message,
+        stack: error.stack
     })
 }
 

@@ -3,6 +3,10 @@ import React, { useEffect, useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getUserDataFromLocalStorage } from '../../../utils/getUserDataFromLocalStorage';
+import TableList from '../../../comps/TableList';
+import { useQuery } from 'react-query';
+import Loader from '../../../comps/Loader/Loader';
+import ErrorModal from '../../../comps/ErrorModal';
 
 const UpdateUserForm = ({ showUpdateForm, user, setUsersLists }) => {
 
@@ -111,7 +115,16 @@ const UpdateUserForm = ({ showUpdateForm, user, setUsersLists }) => {
     );
 };
 
+const fetchUserData = async () => {
+    const res = await fetch('/teachers');
+    const resData = await res.json();
+    return resData.data;
+}
+
 const ViewTeachers = () => {
+
+    const { isLoading, data: teachersData, isError, error } = useQuery("teachers", fetchUserData)
+
     // creating state to store the data for view table
     const [usersLists, setUsersLists] = useState([])
     const [openUpdateFormForUser, setOpenUpdateFormForUser] = useState(null);
@@ -120,12 +133,6 @@ const ViewTeachers = () => {
         setOpenUpdateFormForUser(email);
     };
 
-    const fetchUserData = async () => {
-        // Fetch the updated list of users after creating a new user
-        const userListResponse = await fetch('/users');
-        const userListData = await userListResponse.json();
-        setUsersLists(userListData.data);
-    }
 
     useEffect(() => {
         fetchUserData();
@@ -147,7 +154,27 @@ const ViewTeachers = () => {
         }
     }
 
-    const isAdmin = getUserDataFromLocalStorage()?.user?.role === 'admin';
+    // const isAdmin = getUserDataFromLocalStorage()?.user?.role === 'admin';
+
+    const columns = [
+        { id: "name", label: "Name", minWidth: 170 },
+        { id: "email", label: "Email", minWidth: 100 },
+        {
+            id: "phoneNumber",
+            label: "Phone Number",
+            minWidth: 170,
+            align: "right",
+        },
+    ]
+
+    if (isLoading) {
+        return <Loader />
+    }
+
+
+    if (isError) {
+        return <ErrorModal message={error.message} />
+    }
 
     return (
         <div className='relative'>
@@ -156,106 +183,19 @@ const ViewTeachers = () => {
             <div className=''>
                 <div className=" px-4 py-2 mb-3 bg-gray-800">
                     <h1 className="text-lg font-semibold text-white">
-                        View Students
+                        View Teachers
                     </h1>
                 </div>
-                <table className="w-full border-collapse">
-                    <thead>
-                        <tr>
-                            <th className="p-3 font-bold text-left text-gray-800 border border-gray-300">
-                                Name
-                            </th>
-                            <th className="p-3 font-bold text-left text-gray-800 border border-gray-300">
-                                E-mail
-                            </th>
-                            <th className="p-3 font-bold text-left text-gray-800 border border-gray-300">
-                                Role
-                            </th>
-                            <th className="p-3 font-bold text-left text-gray-800 border border-gray-300">
-                                Phone Number
-                            </th>
-                            <th className="p-3 font-bold text-left text-gray-800 border border-gray-300">
-                                Address
-                            </th>
 
-                            {
-                                isAdmin && (
-                                    <th className="p-3 font-bold text-left text-gray-800 border border-gray-300">
+                {
+                    <TableList
+                        columns={columns}
+                        rows={[...teachersData.map(({ _id, name, email, phoneNumber }) => { return { _id, name, email, phoneNumber } })]}
+                    />
 
-                                    </th>
-                                )
-
-                            }
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        {
-                            usersLists.map((user, index) => {
-                                return (
-                                    (
-                                        <tr key={index}>
-                                            <td className="p-3 text-sm font-medium text-gray-800 border border-gray-300">
-                                                {user?.name}
-                                            </td>
-                                            <td className="p-3 text-sm font-medium text-gray-800 border border-gray-300">
-                                                {user?.email}
-                                            </td>
-                                            <td className="p-3 text-sm font-medium text-gray-800 border border-gray-300">
-                                                {user?.role}
-                                            </td>
-                                            <td className="p-3 text-sm font-medium text-gray-800 border border-gray-300">
-                                                {user?.phoneNumber}
-                                            </td>
-                                            <td className="p-3 text-sm font-medium text-gray-800 border border-gray-300">
-                                                {user?.address}
-                                            </td>
-
-                                            {
-                                                isAdmin && (
-                                                    <td className="p-3 text-sm font-medium text-gray-800 border border-gray-300">
-                                                        <button className="px-2 py-1 bg-blue-600 text-white rounded-md mr-2" onClick={() => showUpdateForm(user.email)}>
-                                                            Update
-                                                        </button>
-                                                        {
-                                                            user?.role === 'admin' ? (
-                                                                <button className="px-2 py-1 bg-red-400 text-white rounded-md" disabled>
-                                                                    Delete
-                                                                </button>
-                                                            ) : (
-                                                                <button className="px-2 py-1 bg-red-600 text-white rounded-md" onClick={deleteUser(user.email)}>
-                                                                    Delete
-                                                                </button>
-                                                            )
-                                                        }
-                                                    </td>
-                                                )
-                                            }
+                }
 
 
-                                            {
-                                                openUpdateFormForUser === user.email && (
-
-                                                    <UpdateUserForm
-                                                        showUpdateForm={showUpdateForm}
-                                                        setUsersLists={setUsersLists}
-                                                        user={{
-                                                            "address": user.address,
-                                                            "name": user.name,
-                                                            "phoneNumber": user.phoneNumber,
-                                                            "email": user.email
-                                                        }}
-                                                    />
-                                                )
-                                            }
-                                        </tr>
-
-                                    ))
-                            })
-                        }
-
-                    </tbody>
-                </table>
             </div>
 
             <ToastContainer />

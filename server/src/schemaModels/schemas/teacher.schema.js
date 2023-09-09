@@ -10,7 +10,6 @@ const teacherSchema = new mongoose.Schema({
     profileImg: {
         type: String,
         required: true,
-        default: "http://localhost:8000/default-profile-img.jpeg"
     },
     email: {
         type: String,
@@ -42,6 +41,10 @@ const teacherSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    disableAccount: {
+        type: Boolean,
+        default: false
+    }
 }, { timestamps: true });
 
 

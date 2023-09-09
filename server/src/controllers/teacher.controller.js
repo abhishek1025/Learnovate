@@ -1,22 +1,42 @@
-import { HttpStatus, roleEnum } from '../constant/constant.js';
+import { HttpStatus } from '../constant/constant.js';
 import sendSuccessResponse from '../helper/apiResponseHandler.js';
-import { Teacher, User } from '../schemaModels/model.js';
+import { Subject, Teacher, User } from '../schemaModels/model.js';
 import asyncErrorHandler from '../utils/asyncHandler.js';
-import { throwError } from '../utils/throwError.js';
+import deleteFile from '../utils/deleteFile.js';
 import generateStrongPassword from '../utils/passwordGenerator.js';
 import sendMail from '../utils/sendMail.js';
+import { throwError } from '../utils/throwError.js';
 
-import bcrypt from "bcrypt";
+import mongoose from 'mongoose';
 
 export const addTeacher = asyncErrorHandler(async (req, res) => {
 
-    const teacherDetails = JSON.parse(req.body.teacherDetails);
+    const profileImgFileName = req?.file?.filename || "default-profile-img.jpeg";
+
+    let teacherDetails = req.body.teacherDetails;
+
+    /* Checking if all the fields are attached to the req body  */
+    if (!teacherDetails) {
+        throwError({ statusCode: HttpStatus.BAD_REQUEST, message: "All the fields are required", })
+    }
+
+    teacherDetails = JSON.parse(teacherDetails);
 
     const { name, email, gender, joiningDate, address, subjectID, phoneNumber } = teacherDetails;
 
     /* Checking if all the fields are attached to the req body  */
-    if (Object.keys(teacherDetails).length < 7 || Object.values(teacherDetails).length) {
+    if (!name || !email || !gender || !joiningDate || !address || !phoneNumber || !subjectID) {
         throwError({ statusCode: HttpStatus.BAD_REQUEST, message: "All the fields are required", })
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(subjectID)) {
+        throwError({ statusCode: HttpStatus.NOT_FOUND, message: "Subject not found", })
+    }
+
+    const isSubjectExists = await Subject.findById(subjectID)
+
+    if (!isSubjectExists) {
+        throwError({ statusCode: HttpStatus.NOT_FOUND, message: "Subject not found", })
     }
 
     // Getting user data if it exists
@@ -52,9 +72,10 @@ export const addTeacher = asyncErrorHandler(async (req, res) => {
         gender,
         joiningDate: new Date(joiningDate),
         subject: subjectID,
+        profileImg: profileImgFileName
     })
 
-    await teacher.save();
+    const newTeacherDetails = await teacher.save();
 
     // Sending the mail 
     await sendMail(mailMessage)
@@ -62,145 +83,155 @@ export const addTeacher = asyncErrorHandler(async (req, res) => {
     sendSuccessResponse({
         res,
         statusCode: HttpStatus.CREATED,
-        message: "Teacher is added successfully"
+        message: "Teacher is added successfully",
+        data: newTeacherDetails
     })
 
 })
 
-// Get all Users
+// Get all Teachers
 export const getAllTeachers = asyncErrorHandler(async (req, res) => {
 
-    const users = await User.find({}, { password: false }).sort({ createdAt: -1 });
+    const teachers = await Teacher.find({}, { password: false }).sort({ createdAt: -1 }).populate("subject");
 
     sendSuccessResponse({
         res,
         statusCode: HttpStatus.OK,
-        message: "All users data has been retrieved",
-        data: users
-    })
-
-
-})
-
-
-export const userLogin = asyncErrorHandler(async (req, res) => {
-
-    const { email, password } = req.body
-
-    if (!email || !password) {
-        throwError({ message: "All the fields are required", statusCode: HttpStatus.BAD_REQUEST })
-    }
-
-    // checking is user exists or not
-    const user = await User.findOne({ email });
-
-    if (!user) {
-        throwError({ message: "User not found", statusCode: HttpStatus.NOT_FOUND })
-    }
-
-    // Comparing the password
-    const isPasswordValid = await bcrypt.compare(password, user.password)
-
-    if (!isPasswordValid) {
-        throwError({ message: "Wrong password, please check your password", statusCode: HttpStatus.UNAUTHORIZED })
-    }
-
-    // Cannot send password to frontend because of security issues
-    user.password = null;
-
-    // return res.status(HttpStatus.OK).json({ message: `Authentication successful, Welcome ${user.fullName}` })
-    sendSuccessResponse({
-        res,
-        statusCode: HttpStatus.OK,
-        message: `Authentication successful, Welcome ${user.name}`,
-        data: user
+        message: "All teachers data has been retrieved",
+        data: teachers
     })
 
 })
 
 
-export const changePassword = asyncErrorHandler(async (req, res) => {
+// Update User
+export const updateTeacher = asyncErrorHandler(async (req, res) => {
 
-    const { email, oldPassword, newPassword } = req.body;
+    const teacherID = req.params.teacherID;
 
-    const user = await User.findOne({ email });
-
-    if (!user) {
-        throwError({ statusCode: HttpStatus.NOT_FOUND, message: 'User not found' })
+    if (!mongoose.Types.ObjectId.isValid(teacherID)) {
+        throwError({ statusCode: HttpStatus.NOT_FOUND, message: "Teacher not found", })
     }
 
-    // Compare oldPassword with stored hashed password using bcrypt
-    const passwordMatch = await bcrypt.compare(oldPassword, user.password);
+    const newProfileImg = req?.file?.filename;
 
-    if (!passwordMatch) {
-        throwError({ statusCode: HttpStatus.BAD_REQUEST, message: 'Incorrect old password.' })
+    let updatedData = req.body.updatedData;
+
+    if (!teacherID || !updatedData) {
+        throwError({ statusCode: HttpStatus.BAD_REQUEST, message: 'teacherID or updated data is required' });
     }
 
-    user.password = newPassword;
-    await user.save();
+    updatedData = JSON.parse(updatedData)
+
+    console.log(newProfileImg.slice(14));
+
+    const teacher = await Teacher.findById(teacherID);
+
+    if (!teacher) {
+        throwError({ statusCode: HttpStatus.NOT_FOUND, message: 'User not found' });
+    }
+
+    if (newProfileImg) {
+        deleteFile(teacher.profileImg)
+        updatedData.profileImg = newProfileImg;
+    }
+
+
+    // Update user's data based on newData
+    Object.assign(teacher, updatedData);
+
+    const newTeacherData = await teacher.save();
 
     sendSuccessResponse({
         res,
         statusCode: HttpStatus.OK,
-        message: "Password is changes successfully"
-    })
+        message: "User updated successfully",
+        data: newTeacherData
+    });
+});
 
-})
+export const deleteTeacher = asyncErrorHandler(async (req, res) => {
 
-export const deleteUser = asyncErrorHandler(async (req, res) => {
     const email = req.params.email;
 
     if (!email) {
         throwError({ statusCode: HttpStatus.BAD_REQUEST, message: 'Email is required' });
     }
 
-    const user = await User.findOne({ email });
+    const teacher = await Teacher.findOne({ email });
 
-    if (!user) {
-        throwError({ statusCode: HttpStatus.NOT_FOUND, message: 'User not found' });
+    if (!teacher) {
+        throwError({ statusCode: HttpStatus.NOT_FOUND, message: 'Teacher not found' });
     }
 
-    await User.deleteOne({ email });
+    await Teacher.deleteOne({ email });
 
     sendSuccessResponse({
         res,
         statusCode: HttpStatus.OK,
-        message: "User deleted successfully"
+        message: "Teacher is deleted successfully"
     });
 });
 
-// Update User
-export const updateUser = asyncErrorHandler(async (req, res) => {
 
-    const email = req.params.email;
-    const { updatedData } = req.body;
+// Retrieve a teacher by ID
+export const getTeacherByID = asyncErrorHandler(async (req, res) => {
 
-    if (!email || !updatedData) {
-        throwError({ statusCode: HttpStatus.BAD_REQUEST, message: 'Email or updated data is required' });
+    const teacherID = req.params.teacherID;
+
+    if (!mongoose.Types.ObjectId.isValid(teacherID)) {
+        throwError({
+            message: "Teacher not found",
+            statusCode: HttpStatus.NOT_FOUND,
+        });
     }
 
-    const user = await User.findOne({ email });
+    const teacher = await Teacher.findById(teacherID).populate("subject");
 
-    if (!user) {
-        throwError({ statusCode: HttpStatus.NOT_FOUND, message: 'User not found' });
+    if (!teacher || !teacher.subject) {
+        throwError({
+            message: "Teacher not found",
+            statusCode: HttpStatus.NOT_FOUND,
+        });
     }
-
-    // Update user's data based on newData
-    Object.assign(user, updatedData);
-    const newUserData = await user.save();
 
     sendSuccessResponse({
         res,
-        statusCode: HttpStatus.OK,
-        message: "User updated successfully",
-        data: {
-            name: newUserData.name,
-            email: newUserData.email,
-            phoneNumber: newUserData.phoneNumber,
-            address: newUserData.address
-        }
+        data: teacher,
+        message: "teacher retrieved successfully",
     });
 });
+
+export const disableTeacherAccount = asyncErrorHandler(async (req, res) => {
+
+    const teacherID = req.params.teacherID;
+
+    if (!mongoose.Types.ObjectId.isValid(teacherID)) {
+        throwError({
+            message: "Teacher not found",
+            statusCode: HttpStatus.NOT_FOUND,
+        });
+    }
+
+    const teacher = await Teacher.findById(teacherID);
+
+    if (!teacher) {
+        throwError({
+            message: "Teacher not found",
+            statusCode: HttpStatus.NOT_FOUND,
+        });
+    }
+
+
+    teacher.disableAccount = !teacher.disableAccount;
+
+    await teacher.save();
+
+    sendSuccessResponse({
+        res,
+        message: teacher.disableAccount ? "Teacher account is successfully deactivated" : "Teacher account is successfully activated",
+    })
+})
 
 
 // Get emails of all students

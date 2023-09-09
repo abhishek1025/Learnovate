@@ -1,22 +1,30 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 //toastify
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from '../../../comps/Loader/Loader';
 
 const AddTeacher = () => {
 
-    // storing the user details in a state
-    const [user, setUser] = useState({
+    const [displayLoader, setDisplayLoader] = useState(false);
+
+    const defaultUserInfo = {
         name: '',
         email: '',
-        role: '',
+        gender: '',
         phoneNumber: '',
         address: '',
-    });
+        joiningDate: '',
+        subjectID: "64f4546b1ffb9958db59f19d"
+    }
 
-    // creating state to store the data for view table
-    const [usersLists, setUsersLists] = useState([])
+    // storing the user details in a state
+    const [user, setUser] = useState(defaultUserInfo);
+
+    const [profileImg, setProfileImg] = useState("")
+
+    const profileImgInputRef = useRef();
 
     // for input types
     const handleInputChange = (event) => {
@@ -30,50 +38,53 @@ const AddTeacher = () => {
     // for creating a new user
 
     const handleSubmit = async (e) => {
+
         e.preventDefault();
 
+        setDisplayLoader(true);
+        
+        const displayLoaderTimeout = setTimeout(() => setDisplayLoader(false), 3000)
+
+        const formData = new FormData();
+        formData.append("file", profileImg);
+        formData.append("teacherDetails", JSON.stringify(user));
+
         try {
-            const response = await fetch('/users', {
+            const response = await fetch('/teachers', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(user),
+                body: formData,
             });
 
             const responseData = await response.json();
+
             if (response.ok) {
-                ('User created:', user);
-                setUser({
-                    name: '',
-                    email: '',
-                    role: '',
-                    phoneNumber: '',
-                    address: '',
-                });
-                (response)
+                clearTimeout(displayLoaderTimeout);
+                if (profileImgInputRef.current) {
+                    profileImgInputRef.current.value = "";
+                }
+                setUser(defaultUserInfo);
+                toast.success(responseData.message)
+                return;
             }
 
-            toast(responseData.message)
+            if (!displayLoader) {
+                toast.error(responseData.message)
+            }
 
         } catch (error) {
             console.error('Error:', error);
         }
     };
 
-    const fetchUserData = async () => {
-        // Fetch the updated list of users after creating a new user
-        const userListResponse = await fetch('/users');
-        const userListData = await userListResponse.json();
-        setUsersLists(userListData.data);
-    }
-
-    useEffect(() => {
-        fetchUserData();
-    }, [])
 
     return (
         <div className="">
+
+            {
+                displayLoader && (
+                    <Loader />
+                )
+            }
 
             <div className=" px-4 py-2 mb-3 bg-gray-800">
                 <h1 className="text-lg font-semibold text-white">
@@ -109,7 +120,8 @@ const AddTeacher = () => {
                         required
                     />
                 </div>
-                <div className="mb-4">
+
+                {/* <div className="mb-4">
                     <label htmlFor="role" className="block text-sm font-medium text-gray-700">
                         Role
                     </label>
@@ -125,7 +137,58 @@ const AddTeacher = () => {
                         <option value="teacher">Teacher</option>
                         <option value="student">Student</option>
                     </select>
+                </div> */}
+
+                <div className="mb-4">
+                    <label htmlFor="profileImg" className="block text-sm font-medium text-gray-700">
+                        Profile Image
+                    </label>
+                    <input
+                        type="file"
+                        id="profileImg"
+                        name="profileImg"
+                        ref={profileImgInputRef}
+                        onChange={(e) => setProfileImg(e.target.files[0])}
+                        className="mt-1 p-2 border rounded w-full"
+                        required
+                        accept='image/*'
+                    />
                 </div>
+
+                <div className="mb-4">
+                    <label htmlFor="gender" className="block text-sm font-medium text-gray-700">
+                        Gender
+                    </label>
+                    <select
+                        id="gender"
+                        name="gender"
+                        value={user.gender}
+                        onChange={handleInputChange}
+                        className="mt-1 p-2 border rounded w-full"
+                        required
+                    >
+                        <option value="">Select gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div className="mb-4">
+                    <label htmlFor="joiningDate" className="block text-sm font-medium text-gray-700">
+                        Joining Date
+                    </label>
+                    <input
+                        type="date"
+                        id="joiningDate"
+                        name="joiningDate"
+                        value={user.joiningDate}
+                        onChange={handleInputChange}
+                        className="mt-1 p-2 border rounded w-full"
+                        required
+                    />
+                </div>
+
                 <div className="mb-4">
                     <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">
                         Phone Number
@@ -159,7 +222,7 @@ const AddTeacher = () => {
                     className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
 
                 >
-                    Create User
+                    Add Teacher
                 </button>
             </form>
 

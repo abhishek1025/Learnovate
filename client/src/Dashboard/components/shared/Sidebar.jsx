@@ -22,6 +22,8 @@ import {
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Link } from "react-router-dom";
 import { DASHBOARD_SIDEBAR_LINKS } from "../../lib";
+import { v4 as uuidv4 } from 'uuid';
+
 
 export function MultiLevelSidebar() {
 
@@ -39,10 +41,11 @@ export function MultiLevelSidebar() {
                 {
                     DASHBOARD_SIDEBAR_LINKS.admin.map((sidebarLink) => {
                         const { key, label, path, icon, subMenu } = sidebarLink;
+
                         if (subMenu) {
                             return (
                                 <SidebarAccordion
-                                    key={sidebarLink.key}
+                                    key={uuidv4()}
                                     menuData={sidebarLink}
                                 />
                             )
@@ -81,7 +84,7 @@ const SidebarAccordion = ({ menuData }) => {
     const handleOpen = (value) => {
         setOpen(open === value ? 0 : value);
     };
-    
+
     return (
         <Accordion
             open={open === 1}
@@ -109,7 +112,7 @@ const SidebarAccordion = ({ menuData }) => {
                 <List className="p-0">
                     {
                         subMenu.map((subMenuItem) => (
-                            <Link to={subMenuItem.path}>
+                            <Link to={subMenuItem.path} key={uuidv4()} >
                                 <ListItem className="pl-3">
                                     <ListItemPrefix>
                                         <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />

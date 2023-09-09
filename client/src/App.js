@@ -28,6 +28,7 @@ import AddTeacher from './Dashboard/pages/teacher/AddTeacher';
 import ViewTeachers from './Dashboard/pages/teacher/ViewTeachers';
 
 
+
 function App() {
     return (
         <div className="App">

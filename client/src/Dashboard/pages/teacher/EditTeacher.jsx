@@ -2,25 +2,19 @@ import React, { useEffect, useRef, useState } from 'react';
 import Loader from '../../../comps/Loader/Loader';
 import ErrorModal from '../../../comps/ErrorModal';
 import swal from 'sweetalert';
+import { useParams } from 'react-router-dom';
 import NormalButton from '../../../comps/Buttons/NormalButton';
+import BackButton from '../../../comps/Buttons/BackButton';
 
-const AddTeacher = () => {
+const EditTeacher = () => {
+
+    const { teacherID } = useParams();
 
     const [displayLoader, setDisplayLoader] = useState(false);
     const [error, setError] = useState(false);
 
-    const defaultUserInfo = {
-        name: '',
-        email: '',
-        gender: '',
-        phoneNumber: '',
-        address: '',
-        joiningDate: '',
-        subjectID: "64f4546b1ffb9958db59f19d"
-    }
-
     // storing the user details in a state
-    const [user, setUser] = useState(defaultUserInfo);
+    const [user, setUser] = useState({});
 
     const [profileImg, setProfileImg] = useState("")
 
@@ -35,7 +29,32 @@ const AddTeacher = () => {
         }));
     };
 
-    // for creating a new user
+    const fetchTeacherDetails = async () => {
+
+        try {
+
+            setDisplayLoader(true);
+
+            const res = await fetch(`/teachers/${teacherID}`);
+            const resData = await res.json();
+
+            if (res.ok) {
+                setDisplayLoader(false);
+                setUser(resData.data)
+                return;
+            }
+
+            setDisplayLoader(false);
+            setError(true);
+        } catch (error) {
+            console.log(error);
+            setError(true)
+        }
+    }
+
+    useEffect(() => {
+        fetchTeacherDetails()
+    }, [])
 
     const handleSubmit = async (e) => {
 
@@ -45,11 +64,11 @@ const AddTeacher = () => {
 
         const formData = new FormData();
         formData.append("file", profileImg);
-        formData.append("teacherDetails", JSON.stringify(user));
+        formData.append("updatedData", JSON.stringify(user));
 
         try {
-            const response = await fetch('/teachers', {
-                method: 'POST',
+            const response = await fetch(`/teachers/${teacherID}`, {
+                method: 'PATCH',
                 body: formData,
             });
 
@@ -60,7 +79,6 @@ const AddTeacher = () => {
                 if (profileImgInputRef.current) {
                     profileImgInputRef.current.value = "";
                 }
-                setUser(defaultUserInfo);
                 swal("", responseData.message, "success");
                 return;
             }
@@ -86,11 +104,12 @@ const AddTeacher = () => {
 
             <div className=" px-4 py-2 mb-3 bg-gray-800">
                 <h1 className="text-lg font-semibold text-white">
-                    Add Teacher
+                    Edit   Teacher
                 </h1>
             </div>
 
             <form onSubmit={(e) => handleSubmit(e)} className="bg-white p-10 shadow-md rounded-lg">
+
                 <div className="mb-4">
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700">
                         Name
@@ -100,20 +119,6 @@ const AddTeacher = () => {
                         id="name"
                         name="name"
                         value={user.name}
-                        onChange={handleInputChange}
-                        className="mt-1 p-2 border rounded w-full"
-                        required
-                    />
-                </div>
-                <div className="mb-4">
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                        Email
-                    </label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={user.email}
                         onChange={handleInputChange}
                         className="mt-1 p-2 border rounded w-full"
                         required
@@ -149,7 +154,6 @@ const AddTeacher = () => {
                         ref={profileImgInputRef}
                         onChange={(e) => setProfileImg(e.target.files[0])}
                         className="mt-1 p-2 border rounded w-full"
-                        required
                         accept='image/*'
                     />
                 </div>
@@ -216,12 +220,17 @@ const AddTeacher = () => {
                         required
                     />
                 </div>
-                <NormalButton type="submit">
-                    Add Teacher
-                </NormalButton>
+
+                <div className='flex gap-x-4'>
+                    <BackButton />
+                    <NormalButton type="submit">
+                        Update Teacher Details
+                    </NormalButton>
+                </div>
+
             </form>
         </div>
     );
 };
 
-export default AddTeacher;
+export default EditTeacher;

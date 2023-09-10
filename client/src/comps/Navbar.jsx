@@ -21,36 +21,30 @@ const Navbar = () => {
           Home
         </Link>
 
-        {
-          getUserDataFromLocalStorage()?.user && (
-            <Link to="/profile" className="p-4">
-              Profile
-            </Link>
-          )
-        }
 
-        {
-          getUserDataFromLocalStorage() && (["admin", "teacher"].includes(getUserDataFromLocalStorage()?.user?.role) ? (
-            <Link to="/admin" className="p-4">
-              Dashboard
-            </Link>
-          ) : (
-            <>
-              <Link to="/exams" className="p-4">
-                Exams
-              </Link>
+        <Link to="/profile" className="p-4">
+          Profile
+        </Link>
 
-              <Link to="/results" className="p-4">
-                Results
-              </Link>
 
-              <Link to="/feedback" className="p-4">
-                Feedback
-              </Link>
-            </>
 
-          ))
-        }
+        <Link to="/admin" className="p-4">
+          Dashboard
+        </Link>
+
+
+        <Link to="/exams" className="p-4">
+          Exams
+        </Link>
+
+        <Link to="/results" className="p-4">
+          Results
+        </Link>
+
+        <Link to="/feedback" className="p-4">
+          Feedback
+        </Link>
+
 
         <Link to="/contact" className="p-4">
           Contact

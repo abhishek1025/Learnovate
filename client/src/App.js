@@ -26,6 +26,14 @@ import AllStudentMarksList from './Dashboard/pages/AllStudentMarksList';
 import ProfilePage from './pages/ProfilePage';
 import AddTeacher from './Dashboard/pages/teacher/AddTeacher';
 import ViewTeachers from './Dashboard/pages/teacher/ViewTeachers';
+import PageNotFound from './pages/PageNotFound';
+import AddCourse from './Dashboard/pages/course/AddCourse';
+import ViewCourses from './Dashboard/pages/course/ViewCourse';
+import EditCourse from './Dashboard/pages/course/EditCourse';
+import EditTeacher from './Dashboard/pages/teacher/EditTeacher';
+import AddSubject from './Dashboard/pages/subject/AddSubject';
+import ViewSubject from './Dashboard/pages/subject/ViewSubject';
+import EditSubject from './Dashboard/pages/subject/EditSubject';
 
 
 
@@ -46,23 +54,32 @@ function App() {
 
                     <Route index element={<Dashboard />} />
 
-                    <Route path="/admin/add-teacher" element={<AddTeacher />} />
-                    <Route path="/admin/view-teachers" element={<ViewTeachers />} />
+                    <Route path="add-teacher" element={<AddTeacher />} />
+                    <Route path="view-teachers" element={<ViewTeachers />} />
+                    <Route path="edit-teacher/:teacherID" element={<EditTeacher />} />
 
-                    <Route path="/admin/add-exam-materials" element={<AddExamMaterials />} />
-                    <Route path="/admin/feedback" element={<Feedback />} />
+                    <Route path="add-exam-materials" element={<AddExamMaterials />} />
+                    <Route path="feedback" element={<Feedback />} />
 
-                    <Route path="/admin/create-exam" element={<CreateExam />} />
+                    <Route path="create-exam" element={<CreateExam />} />
 
-                    <Route path="/admin/view-exam">
+                    <Route path="view-exam">
                         <Route index element={<ViewExam />} />
-                        <Route path="/admin/view-exam/:examID" element={<ExamDetails />} />
+                        <Route path="view-exam/:examID" element={<ExamDetails />} />
                     </Route>
 
-                    <Route path="/admin/results">
+                    <Route path="results">
                         <Route index element={<ExamResultsDashboard />} />
                         <Route path=':examID' element={<AllStudentMarksList />} />
                     </Route>
+
+                    <Route path="add-course" element={<AddCourse />} />
+                    <Route path="view-courses" element={<ViewCourses />} />
+                    <Route path="edit-course/:courseID" element={<EditCourse />} />
+
+                    <Route path="add-subject" element={<AddSubject />} />
+                    <Route path="view-subjects" element={<ViewSubject />} />
+                    <Route path="edit-subject/:subjectID" element={<EditSubject />} />
 
                 </Route>
 
@@ -74,6 +91,8 @@ function App() {
                 <Route path="/exam-materials/:examID" element={<ExamMaterials />} />
 
                 <Route path="/feedback" element={<FeedbackForm />} />
+
+                <Route path="/*" element={<PageNotFound />} />
             </Routes>
         </div>
     );

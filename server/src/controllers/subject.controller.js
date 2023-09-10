@@ -8,9 +8,9 @@ import { HttpStatus } from "../constant/constant.js";
 // Create a new subject
 export const createSubject = asyncErrorHandler(async (req, res) => {
 
-    const { title, code, courseID } = req.body;
+    const { title, code, courseID, year } = req.body;
 
-    if (!title || !code || !courseID) {
+    if (!title || !code || !courseID || !year) {
         throwError({
             message: "Subject title, code, and course are required",
             statusCode: HttpStatus.BAD_REQUEST,
@@ -39,7 +39,7 @@ export const createSubject = asyncErrorHandler(async (req, res) => {
         });
     }
 
-    const subject = new Subject({ title, code, course: courseID });
+    const subject = new Subject({ title, code, course: courseID, year });
 
     const newSubjectDetails = await subject.save();
 
@@ -101,9 +101,9 @@ export const updateSubject = asyncErrorHandler(async (req, res) => {
         });
     }
 
-    const { title, code, courseID } = req.body;
+    const { title, code, courseID, year, prevCode } = req.body;
 
-    if (!title || !code || !courseID) {
+    if (!title || !code || !courseID || !year) {
         throwError({
             message: "Subject title, code, and course ID are required",
             statusCode: HttpStatus.BAD_REQUEST,
@@ -116,7 +116,7 @@ export const updateSubject = asyncErrorHandler(async (req, res) => {
     })
 
 
-    if (isSubjectExists) {
+    if (isSubjectExists && prevCode !== code ) {
         throwError({
             message: "Failed to update: Subject with this code already exists",
             statusCode: HttpStatus.CONFLICT,
@@ -135,6 +135,7 @@ export const updateSubject = asyncErrorHandler(async (req, res) => {
     subject.title = title;
     subject.code = code;
     subject.course = courseID;
+    subject.year = year
 
     await subject.save();
 

@@ -3,8 +3,15 @@ import Paper from "@mui/material/Paper"
 import { Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material"
 
 import { v4 as uuidv4 } from 'uuid';
+import { FiEye } from "react-icons/fi";
+import { AiFillDelete, AiOutlineDelete } from "react-icons/ai";
+import { BiEdit } from "react-icons/bi";
+import { Link } from "react-router-dom";
 
-const TableList = ({ rows, columns }) => {
+const TableList = ({ rows, columns, editPageRoute, deleteFunction }) => {
+
+    const [rowsData, setRowsData] = React.useState([...rows])
+
     const [page, setPage] = React.useState(0)
     const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
@@ -15,6 +22,39 @@ const TableList = ({ rows, columns }) => {
     const handleChangeRowsPerPage = event => {
         setRowsPerPage(+event.target.value)
         setPage(0)
+    }
+
+    const handleDeleteOperation = (id) => () => {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then(async (willDelete) => {
+
+            if (willDelete) {
+
+                const res = await deleteFunction(id)
+
+                if (res.ok) {
+                    swal("Poof! Item Deleted Successfully", {
+                        icon: "success",
+                    });
+
+                    setRowsData((prevData) => prevData.filter((row) => row._id !== id))
+
+                    return;
+                }
+
+                swal("Opps, Unable to delete", {
+                    icon: "error",
+                });
+            } else {
+                swal("Your imaginary file is safe!");
+            }
+        });
+
     }
 
 
@@ -33,10 +73,13 @@ const TableList = ({ rows, columns }) => {
                                     {column.label}
                                 </TableCell>
                             ))}
+                            <TableCell style={{ fontWeight: "800" }} align="right">
+                                Action
+                            </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows
+                        {rowsData
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map(row => {
                                 return (
@@ -49,6 +92,23 @@ const TableList = ({ rows, columns }) => {
                                                 </TableCell>
                                             ))
                                         }
+
+                                        <TableCell>
+                                            <div className="flex justify-end gap-3">
+                                                {/* <FiEye
+                                                    className="pointer text-xl"
+                                                /> */}
+                                                <Link to={`../${editPageRoute}/${row._id}`}>
+                                                    <BiEdit
+                                                        className="cursor-pointer text-xl text-green-600"
+                                                    />
+                                                </Link>
+                                                <AiFillDelete
+                                                    className="cursor-pointer text-xl text-red-600"
+                                                    onClick={handleDeleteOperation(row._id)}
+                                                />
+                                            </div>
+                                        </TableCell>
 
                                     </TableRow>
                                 )

@@ -74,6 +74,12 @@ export const updateCourseByID = asyncErrorHandler(async (req, res) => {
         throwError({ message: "Course title and duration are required", statusCode: HttpStatus.BAD_REQUEST });
     }
 
+    const isCourseExists = await Course.findOne({ title: title.toUpperCase() })
+
+    if (isCourseExists && isCourseExists.duration === Number(duration)) {
+        throwError({ message: "Course with this title already exists", statusCode: HttpStatus.CONFLICT })
+    }
+
     const updatedCourse = await Course.findByIdAndUpdate(
         courseID,
         { title, duration }

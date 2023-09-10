@@ -12,6 +12,10 @@ const subjectSchema = new mongoose.Schema({
     course: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Course"
+    },
+    year: {
+        type: Number,
+        required: true
     }
 }, { timestamps: true })
 

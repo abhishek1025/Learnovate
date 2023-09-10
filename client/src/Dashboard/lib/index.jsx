@@ -3,10 +3,13 @@ import {
     HiOutlineViewGrid
 } from 'react-icons/hi';
 
-import { IoCloudUploadOutline, IoDocumentTextOutline, IoPeopleOutline } from 'react-icons/io5';
-import { PiExam, PiStudentBold } from 'react-icons/pi';
+import { IoCloudUploadOutline, IoDocumentTextOutline, IoPeopleOutline, IoSchoolOutline } from 'react-icons/io5';
+import { PiExam, PiExamBold, PiStudentBold, PiUsersThreeBold } from 'react-icons/pi';
 
-import { MdCastForEducation, MdOutlineFeedback } from "react-icons/md";
+import { MdCastForEducation, MdOutlineDashboard, MdOutlineFeedback, MdOutlineSchool } from "react-icons/md";
+import { MdSchool, MdSubject } from "react-icons/md"
+import { BiBookReader, BiSolidBookReader } from 'react-icons/bi';
+import { RiDashboardLine, RiFeedbackLine } from 'react-icons/ri'
 
 
 // export const DASHBOARD_SIDEBAR_LINKS = [
@@ -70,13 +73,13 @@ export const DASHBOARD_SIDEBAR_LINKS = {
             key: 'dashboard',
             label: 'Dashboard',
             path: '/admin',
-            icon: <HiOutlineViewGrid />,
+            icon: <MdOutlineDashboard />,
         },
 
         {
             key: 'Teachers',
             label: 'Teachers',
-            icon: <IoPeopleOutline />,
+            icon: <PiUsersThreeBold />,
             subMenu: [
                 {
                     key: 'Add Teacher',
@@ -110,6 +113,42 @@ export const DASHBOARD_SIDEBAR_LINKS = {
         },
 
         {
+            key: 'Courses',
+            label: 'Courses',
+            icon: <MdOutlineSchool />,
+            subMenu: [
+                {
+                    key: 'Add Course',
+                    label: 'Add Course',
+                    path: '/admin/add-course',
+                },
+                {
+                    key: 'View Courses',
+                    label: 'View Courses',
+                    path: '/admin/view-courses',
+                },
+            ]
+        },
+
+        {
+            key: 'Subjects',
+            label: 'Subjects',
+            icon: <BiBookReader />,
+            subMenu: [
+                {
+                    key: 'Add Subject',
+                    label: 'Add Subject',
+                    path: '/admin/add-subject',
+                },
+                {
+                    key: 'View Subjects',
+                    label: 'View Subjects',
+                    path: '/admin/view-subjects',
+                }
+            ]
+        },
+
+        {
             key: 'Exams',
             label: 'Exams',
             icon: <MdCastForEducation />,
@@ -137,13 +176,13 @@ export const DASHBOARD_SIDEBAR_LINKS = {
             key: 'Results',
             label: 'Results',
             path: '/admin/results',
-            icon: <PiExam />,
+            icon: <PiExamBold />,
         },
         {
             key: 'feedback',
             label: 'Feedback',
             path: '/admin/feedback',
-            icon: <MdOutlineFeedback />,
+            icon: <RiFeedbackLine />,
             role: "admin",
         },
     ]

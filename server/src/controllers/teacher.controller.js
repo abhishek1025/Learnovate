@@ -43,6 +43,7 @@ export const addTeacher = asyncErrorHandler(async (req, res) => {
     const isTeacherExists = await Teacher.findOne({ email });
 
     if (isTeacherExists) {
+        deleteFile(profileImgFileName)
         throwError({ statusCode: HttpStatus.CONFLICT, message: "Teacher already exists" })
     }
 
@@ -70,7 +71,7 @@ export const addTeacher = asyncErrorHandler(async (req, res) => {
         phoneNumber,
         address,
         gender,
-        joiningDate: new Date(joiningDate),
+        joiningDate,
         subject: subjectID,
         profileImg: profileImgFileName
     })
@@ -123,8 +124,6 @@ export const updateTeacher = asyncErrorHandler(async (req, res) => {
 
     updatedData = JSON.parse(updatedData)
 
-    console.log(newProfileImg.slice(14));
-
     const teacher = await Teacher.findById(teacherID);
 
     if (!teacher) {
@@ -152,19 +151,19 @@ export const updateTeacher = asyncErrorHandler(async (req, res) => {
 
 export const deleteTeacher = asyncErrorHandler(async (req, res) => {
 
-    const email = req.params.email;
+    const teacherID = req.params.teacherID;
 
-    if (!email) {
-        throwError({ statusCode: HttpStatus.BAD_REQUEST, message: 'Email is required' });
+    if (!teacherID) {
+        throwError({ statusCode: HttpStatus.BAD_REQUEST, message: 'Teacher ID is required' });
     }
 
-    const teacher = await Teacher.findOne({ email });
+    const teacher = await Teacher.findById({ _id: teacherID });
 
     if (!teacher) {
         throwError({ statusCode: HttpStatus.NOT_FOUND, message: 'Teacher not found' });
     }
 
-    await Teacher.deleteOne({ email });
+    await Teacher.deleteOne({ _id: teacherID });
 
     sendSuccessResponse({
         res,

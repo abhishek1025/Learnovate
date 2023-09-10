@@ -21,7 +21,7 @@ const teacherSchema = new mongoose.Schema({
         required: true
     },
     joiningDate: {
-        type: Date,
+        type: String,
         required: true
     },
     subject: {
